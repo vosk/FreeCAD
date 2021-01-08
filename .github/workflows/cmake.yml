@@ -10,8 +10,8 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.config.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}
-    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
