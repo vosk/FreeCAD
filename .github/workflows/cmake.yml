@@ -170,7 +170,7 @@ jobs:
         #ccache -s
         echo "FreeCAD installed bin:" ${INSTALLED_APP_PATH}
         echo "::group::Run tests"
-        xvfb-run --auto-servernum ${INSTALLED_APP_PATH} --console --run-test 0
+        ${INSTALLED_APP_PATH} --console --run-test 0
         echo "::endgroup::"
         echo "::warning::Tests Completed"
         xvfb-run --auto-servernum ${INSTALLED_APP_PATH} --log-file /tmp/FreeCAD_installed.log &
