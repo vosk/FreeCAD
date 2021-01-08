@@ -100,6 +100,7 @@ jobs:
                                libocct-visualization-dev        \
                                libvtk7-dev                      \
                                libgdal-dev                      \
+                               libkml-dev                       \
                                libmedc-dev                      \
                                pybind11-dev                     \
                                swig                             \
