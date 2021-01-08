@@ -171,6 +171,7 @@ jobs:
         echo "::group::Run tests"
         xvfb-run --auto-servernum ${INSTALLED_APP_PATH} --console --run-test 0
         echo "::endgroup::"
+        echo "::warning::Tests Completed"
         xvfb-run --auto-servernum ${INSTALLED_APP_PATH} --log-file /tmp/FreeCAD_installed.log &
         sleep 10 && pkill FreeCAD
         cat /tmp/FreeCAD_installed.log
