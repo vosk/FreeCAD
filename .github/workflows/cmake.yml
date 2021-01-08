@@ -98,12 +98,6 @@ jobs:
                                pybind11-dev                     \
                                swig                             \
                                libcoin-dev                      \
-                               libpyside-dev                    \
-                               libpyside2-dev                   \
-                               libshiboken-dev                  \
-                               libshiboken2-dev                 \
-                               pyside-tools                     \
-                               pyside2-tools                    \
                                doxygen                          \
                                graphviz                         \
                                libnglib-dev                     \
@@ -114,9 +108,20 @@ jobs:
                                ccache
 
         if [[ $(lsb_release -rs) == "16.04" ]]; then 
-          sudo apt-get install -y libvtk6-dev
-        fi
-          sudo apt-get install -y libvtk7-dev
+          sudo apt-get install -y \
+            libvtk6-dev      \
+            pyside-tools     \
+            libshiboken-dev  
+        elif [[ $(lsb_release -rs) == "18.04" ]]; then 
+          sudo apt-get install -y \
+            libvtk7-dev      \
+            pyside2-tools     \
+            libshiboken2-dev  
+        else
+          sudo apt-get install -y \
+            libvtk7-dev      \
+            pyside2-tools     \
+            libshiboken2-dev 
         fi
         # Runtime deps
         sudo apt-get install -y --no-install-recommends freecad-daily-python3 python-pivy python3-pivy python-ply python3-ply
