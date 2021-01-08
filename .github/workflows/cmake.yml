@@ -81,9 +81,6 @@ jobs:
         sudo apt-get update -qq
         # Build deps
         sudo apt-get install -y --no-install-recommends          \
-                               python-dev                       \
-                               python-pyside                    \
-                               python-matplotlib                \
                                python3-dev                      \
                                python3-pyside                   \
                                python3-matplotlib               \
