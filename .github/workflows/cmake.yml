@@ -92,7 +92,6 @@ jobs:
                                libboost-program-options${{matrix.boost_version}}-dev \
                                libboost-python${{matrix.boost_version}}-dev          \
                                libboost-regex${{matrix.boost_version}}-dev           \
-                               libboost-signals${{matrix.boost_version}}-dev         \
                                libboost-system${{matrix.boost_version}}-dev          \
                                libboost-thread${{matrix.boost_version}}-dev          \
                                libxerces-c-dev                  \
