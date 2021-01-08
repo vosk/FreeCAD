@@ -10,22 +10,19 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.config.name }} - boost${{matrix.boost_version}}
+    name: ${{ matrix.config.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
-        boost_version: ["1.65", "1.62"]
+        boost_version: ["1.71","1.65"]
+        os: [ubuntu-20.04, ubuntu-18.04]
         config:
         - {
-            name: "Ubuntu Latest gcc 10",
-            os: ubuntu-latest,
             cc: "gcc-10", cxx: "g++-10",
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON -DBUILD_QT5=ON"
           }
         - {
-            name: "Ubuntu Latest clang 10",
-            os: ubuntu-latest,
             cc: "clang-10", cxx: "clang++-10",
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON -DBUILD_QT5=ON"
           }
@@ -40,7 +37,7 @@ jobs:
     - name: Generate Matrix unique name
       id: matrix-name
       run: |
-        echo "::set-output name=concat::${{ matrix.config.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}"
+        echo "::set-output name=concat::${{ matrix.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}"
 
     - name: Change Apt Cache permissions
       if: runner.os == 'Linux'
@@ -99,8 +96,6 @@ jobs:
                                libocct-ocaf-dev                 \
                                libocct-visualization-dev        \
                                libvtk7-dev                      \
-                               libgdal-dev                      \
-                               libkml-dev                       \
                                libmedc-dev                      \
                                pybind11-dev                     \
                                swig                             \
