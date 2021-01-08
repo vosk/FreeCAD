@@ -105,7 +105,6 @@ jobs:
                                libqt5opengl5-dev                \
                                qttools5-dev                     \
                                qtwebengine5-dev                 \
-                               libcoin80-dev                    \
                                libpyside-dev                    \
                                libpyside2-dev                   \
                                libshiboken-dev                  \
