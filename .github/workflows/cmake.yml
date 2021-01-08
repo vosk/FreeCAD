@@ -10,13 +10,14 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}
+    name: ${{ matrix.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}-${{matrix.qt}}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         boost_version: ["1.71","1.65"]
-        os: [ubuntu-20.04, ubuntu-18.04]
+        os: [ubuntu-20.04, ubuntu-18.04, ubuntu-16.04]
+        qt: ["qt5", "qt4"]
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
@@ -36,8 +37,11 @@ jobs:
       
     - name: Generate Matrix unique name
       id: matrix-name
+      if: runner.os == 'Linux'
       run: |
-        echo "::set-output name=concat::${{ matrix.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}"
+        echo "::set-output name=concat::${{ matrix.os }}-boost${{matrix.boost_version}}-${{matrix.config.cc}}-${{matrix.qt}}"
+        qt_number=$(echo ${{ matrix.qt }} | cut -c3-3)
+        echo "::set-output name=qt_number::$qt_number"
 
     - name: Change Apt Cache permissions
       if: runner.os == 'Linux'
@@ -99,15 +103,6 @@ jobs:
                                libmedc-dev                      \
                                pybind11-dev                     \
                                swig                             \
-                               qt4-qmake                        \
-                               libqt4-opengl-dev                \
-                               libqtwebkit-dev                  \
-                               qtbase5-dev                      \
-                               libqt5xmlpatterns5-dev           \
-                               libqt5svg5-dev                   \
-                               libqt5opengl5-dev                \
-                               qttools5-dev                     \
-                               qtwebengine5-dev                 \
                                libcoin-dev                      \
                                libpyside-dev                    \
                                libpyside2-dev                   \
@@ -139,6 +134,27 @@ jobs:
         #export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH
         echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         echo "DISPLAY=:99.0" >> $GITHUB_ENV
+
+    - name: Install QT4 (Linux)
+        if: runner.os == 'Linux' && matrix.qt == 'qt4'
+        run: |
+          sudo apt-get install -y --no-install-recommends          \
+          qt4-qmake                        \
+          libqt4-opengl-dev                \
+          libqtwebkit-dev                  \
+          qtbase4-dev
+
+    - name: Install QT5 (Linux)
+        if: runner.os == 'Linux' && matrix.qt == 'qt5'
+        run: |
+          sudo apt-get install -y --no-install-recommends          \
+          qt5-qmake                        \
+          libqt5xmlpatterns5-dev           \
+          libqt5svg5-dev                   \
+          libqt5opengl5-dev                \
+          qttools5-dev                     \
+          qtwebengine5-dev                 \
+          qtbase5-dev                      
 
     - name: Checkout 
       uses: actions/checkout@v2
