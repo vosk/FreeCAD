@@ -136,25 +136,25 @@ jobs:
         echo "DISPLAY=:99.0" >> $GITHUB_ENV
 
     - name: Install QT4 (Linux)
-        if: runner.os == 'Linux' && matrix.qt == 'qt4'
-        run: |
-          sudo apt-get install -y --no-install-recommends          \
-          qt4-qmake                        \
-          libqt4-opengl-dev                \
-          libqtwebkit-dev                  \
+      if: runner.os == 'Linux' && matrix.qt == 'qt4'
+      run: |
+        sudo apt-get install -y --no-install-recommends          \
+        qt4-qmake                        \
+        libqt4-opengl-dev                \
+        libqtwebkit-dev                  \
           qtbase4-dev
 
     - name: Install QT5 (Linux)
-        if: runner.os == 'Linux' && matrix.qt == 'qt5'
-        run: |
-          sudo apt-get install -y --no-install-recommends          \
-          qt5-qmake                        \
-          libqt5xmlpatterns5-dev           \
-          libqt5svg5-dev                   \
-          libqt5opengl5-dev                \
-          qttools5-dev                     \
-          qtwebengine5-dev                 \
-          qtbase5-dev                      
+      if: runner.os == 'Linux' && matrix.qt == 'qt5'
+      run: |
+        sudo apt-get install -y --no-install-recommends          \
+        qt5-qmake                        \
+        libqt5xmlpatterns5-dev           \
+        libqt5svg5-dev                   \
+        libqt5opengl5-dev                \
+        qttools5-dev                     \
+        qtwebengine5-dev                 \
+        qtbase5-dev                      
 
     - name: Checkout 
       uses: actions/checkout@v2
