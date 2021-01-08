@@ -10,22 +10,21 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.config.name }} - ${{matrix.boost_version}}
+    name: ${{ matrix.config.name }} - boost${{matrix.boost_version}}
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
-        boost_version: ["1.71", 1.65", ""]
+        boost_version: ["1.65", "1.62"]
         config:
         - {
-            name: "Ubuntu Latest gcc 10", artifact: "Linux.7z",
+            name: "Ubuntu Latest gcc 10",
             os: ubuntu-latest,
-            boost: "1.65",
             cc: "gcc-10", cxx: "g++-10",
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON -DBUILD_QT5=ON"
           }
         - {
-            name: "Ubuntu Latest clang 10", artifact: "Linux.7z",
+            name: "Ubuntu Latest clang 10",
             os: ubuntu-latest,
             cc: "clang-10", cxx: "clang++-10",
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON -DBUILD_QT5=ON"
