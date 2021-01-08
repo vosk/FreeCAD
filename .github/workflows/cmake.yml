@@ -99,7 +99,7 @@ jobs:
                                libocct-ocaf-dev                 \
                                libocct-visualization-dev        \
                                libvtk7-dev                      \
-                               libodbc1                         \
+                               libgdal-dev                      \
                                libmedc-dev                      \
                                pybind11-dev                     \
                                swig                             \
