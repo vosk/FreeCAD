@@ -124,7 +124,7 @@ jobs:
         fi
 
         # Runtime deps
-        sudo apt-get install -y --no-install-recommends freecad-daily-python3 python-pivy python3-pivy python-ply python3-ply
+        sudo apt-get install -y --no-install-recommends freecad-daily-python3 python3-pivy python3-ply
 
         # Use newer Eigen to suppress warnings
         # https://github.com/FreeCAD/FreeCAD/pull/3485
