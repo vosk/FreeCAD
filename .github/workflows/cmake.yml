@@ -30,14 +30,14 @@ jobs:
             cc: "gcc", cxx: "g++",
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
           }
-      exclude:
-      # excludes node 4 on macOS
-      - os: ubuntu-20.04
-        qt: "qt4"
-      - os: ubuntu-16.04
-        config.cc: "gcc-10"
-      - os: ubuntu-16.04
-        config.cc: "clang-10"
+        exclude:
+        # excludes node 4 on macOS
+        - os: ubuntu-20.04
+          qt: "qt4"
+        - os: ubuntu-16.04
+          config.cc: "gcc-10"
+        - os: ubuntu-16.04
+          config.cc: "clang-10"
 
     steps:
     - name: Get Date
