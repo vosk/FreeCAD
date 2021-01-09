@@ -17,6 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04, ubuntu-18.04]
         qt: ["qt5", "qt4"]
+        shiboken: ["2"]
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
@@ -37,6 +38,7 @@ jobs:
         include:
         - os: ubuntu-16.04
           qt: "qt5"
+          shiboken: ""
           config:
             {
               cc: "gcc", cxx: "g++",
@@ -44,6 +46,7 @@ jobs:
             }
         - os: ubuntu-16.04
           qt: "qt4"
+          shiboken: ""
           config:
             {
               cc: "gcc", cxx: "g++",
@@ -135,6 +138,7 @@ jobs:
                                netgen-headers                   \
                                libmetis-dev                     \
                                libspnav-dev                     \
+                               libshiboken${{matrix.shiboken}}-dev  \
                                ccache
 
         if [[ $(lsb_release -rs) == "16.04" ]]; then 
