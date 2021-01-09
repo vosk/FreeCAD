@@ -56,12 +56,6 @@ jobs:
         restore-keys: |
           ${{  steps.matrix-name.outputs.concat }}-cache-apt-${{ steps.get-date.outputs.date }}-
           ${{  steps.matrix-name.outputs.concat }}-cache-apt-
-    - name: Set Environment Variables (Linux)
-      if: runner.os == 'Linux' 
-      run: |
-        echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
-        #echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
-        ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
 
     - name: Cache ccache (Linux)
       uses: pat-s/always-upload-cache@v2.1.3
@@ -72,6 +66,13 @@ jobs:
         restore-keys: |
           ${{  steps.matrix-name.outputs.concat }}-cache-ccache-${{ steps.get-date.outputs.date }}-
           ${{  steps.matrix-name.outputs.concat }}-cache-ccache-
+
+    - name: Set Environment Variables (Linux)
+      if: runner.os == 'Linux' 
+      run: |
+        echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
+        #echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
+        ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
 
     - name: Install clang 10 (Linux)
       if: runner.os == 'Linux' && matrix.config.cc == 'clang-10'
