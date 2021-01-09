@@ -18,6 +18,7 @@ jobs:
         os: [ubuntu-20.04, ubuntu-18.04]
         qt: ["qt5", "qt4"]
         shiboken: ["2"]
+        pyside: ["2"]
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
@@ -39,6 +40,7 @@ jobs:
         - os: ubuntu-16.04
           qt: "qt5"
           shiboken: ""
+          pyside: ""
           config:
             {
               cc: "gcc", cxx: "g++",
@@ -47,6 +49,7 @@ jobs:
         - os: ubuntu-16.04
           qt: "qt4"
           shiboken: ""
+          pyside: ""
           config:
             {
               cc: "gcc", cxx: "g++",
@@ -174,9 +177,8 @@ jobs:
         libqt4-opengl-dev                \
         libqtwebkit-dev                  \
         libpyside-dev                    \
-        pyside-tools                     \
+        pyside${{matrix.pyside}}-tools                     \
         python3-pyside                   \
-        pyside-tools                     \
         python3-pyqt4
 
     - name: Install QT5 (Linux)
@@ -190,8 +192,8 @@ jobs:
         qttools5-dev                     \
         qtwebengine5-dev                 \
         qtbase5-dev                      \
-        pyside2-tools                    \
-        python3-pyside2.qtopengl         \
+        pyside${{matrix.pyside}}-tools   \
+        python3-pyside${{matrix.pyside}}.qtopengl         \
         pyqt5-dev-tools
 
     - name: Install QT5 - Ubuntu 16.04 (Linux)
@@ -205,8 +207,8 @@ jobs:
         qttools5-dev                     \
         libqt5webkit5-dev                \
         qtbase5-dev                      \
-        pyside-tools                     \
-        python3-pyside                   \
+        pyside${{matrix.pyside}}-tools   \
+        python3-pyside${{matrix.pyside}} \
         pyqt5-dev-tools
 
     - name: Checkout 
