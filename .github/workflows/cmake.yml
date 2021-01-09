@@ -173,8 +173,7 @@ jobs:
         pyside-tools                     \
         python3-pyside                   \
         pyside-tools                     \
-        python3-pyqt4                    \
-        libshiboken-dev
+        python3-pyqt4
 
     - name: Install QT5 (Linux)
       if: matrix.qt == 'qt5' && matrix.os != 'ubuntu-16.04'
