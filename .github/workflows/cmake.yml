@@ -20,11 +20,11 @@ jobs:
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
-            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON -DBUILD_QT5=ON"
+            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
           }
         - {
             cc: "clang-10", cxx: "clang++-10",
-            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON -DBUILD_QT5=ON"
+            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
           }
 
     steps:
@@ -56,6 +56,12 @@ jobs:
         restore-keys: |
           ${{  steps.matrix-name.outputs.concat }}-cache-apt-${{ steps.get-date.outputs.date }}-
           ${{  steps.matrix-name.outputs.concat }}-cache-apt-
+    - name: Set Environment Variables (Linux)
+      if: runner.os == 'Linux' 
+      run: |
+        echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
+        ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
 
     - name: Cache ccache (Linux)
       uses: pat-s/always-upload-cache@v2.1.3
@@ -126,19 +132,19 @@ jobs:
         # Runtime deps
         sudo apt-get install -y --no-install-recommends freecad-daily-python3 python3-pivy python3-ply
 
-        # Use newer Eigen to suppress warnings
-        # https://github.com/FreeCAD/FreeCAD/pull/3485
-        wget http://mirrors.kernel.org/ubuntu/pool/universe/e/eigen3/libeigen3-dev_3.3.7-2_all.deb
-        sudo dpkg -i libeigen3-dev_3.3.7-2_all.deb
-        #export DISPLAY=:99.0
-        #sh -e /etc/init.d/xvfb start
+        ## Use newer Eigen to suppress warnings
+        ## https://github.com/FreeCAD/FreeCAD/pull/3485
+        #wget http://mirrors.kernel.org/ubuntu/pool/universe/e/eigen3/libeigen3-dev_3.3.7-2_all.deb
+        #sudo dpkg -i libeigen3-dev_3.3.7-2_all.deb
+        ##export DISPLAY=:99.0
+        ##sh -e /etc/init.d/xvfb start
 
         #export INSTALLED_APP_PATH="/usr/local/bin/FreeCAD"
-        echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
+        #echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
 
         #export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH
-        echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
-        echo "DISPLAY=:99.0" >> $GITHUB_ENV
+        #echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
+        #echo "DISPLAY=:99.0" >> $GITHUB_ENV
 
     - name: Install QT4 (Linux)
       if: runner.os == 'Linux' && matrix.qt == 'qt4'
@@ -166,7 +172,9 @@ jobs:
     - name: Configure
       run: |
         mkdir build && cd build 
-        CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} cmake -Wno-dev -G"${GENERATOR}" ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} ../
+        CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
+        cmake -Wno-dev -G"${GENERATOR}" \
+        ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5}../
     - name: Install and Test (Linux)
       if: runner.os == 'Linux'
       run: |
