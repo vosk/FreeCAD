@@ -10,14 +10,13 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.os }}-${{matrix.config.cc}}-${{matrix.qt}}
+    name: ${{ matrix.os }}-${{matrix.cc}}-${{matrix.qt}}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04, ubuntu-18.04, ubuntu-16.04]
         qt: ["qt5", "qt4"]
-        config:
         - {
             cc: "gcc-10", cxx: "g++-10",
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
@@ -35,9 +34,9 @@ jobs:
         - os: ubuntu-20.04
           qt: "qt4"
         - os: ubuntu-16.04
-          config.cc: "gcc-10"
+          cc: "gcc-10"
         - os: ubuntu-16.04
-          config.cc: "clang-10"
+          cc: "clang-10"
 
     steps:
     - name: Get Date
@@ -50,7 +49,7 @@ jobs:
       id: matrix-name
       if: runner.os == 'Linux'
       run: |
-        echo "::set-output name=concat::${{ matrix.os }}-${{matrix.config.cc}}-${{matrix.qt}}"
+        echo "::set-output name=concat::${{ matrix.os }}-${{matrix.cc}}-${{matrix.qt}}"
         qt_number=$(echo ${{ matrix.qt }} | cut -c3-3)
         echo "::set-output name=qt_number::$qt_number"
 
@@ -87,11 +86,11 @@ jobs:
         echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
 
-    - name: Install compiler ${{matrix.config.cc}} (Linux)
+    - name: Install compiler ${{matrix.cc}} (Linux)
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update -qq
-        sudo apt-get install ${{matrix.config.cc}}  ${{matrix.config.cxx}}
+        sudo apt-get install ${{matrix.cc}}  ${{matrix.cxx}}
 
     - name: Install Dependencies (Linux)
       if: runner.os == 'Linux'
@@ -199,9 +198,9 @@ jobs:
     - name: Configure
       run: |
         mkdir build && cd build 
-        CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
+        CC=${{matrix.cc}} CXX=${{matrix.cxx}} \
         cmake -Wno-dev -G"${GENERATOR}" \
-        ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
+        ${{matrix.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
     - name: Install and Test (Linux)
       if: runner.os == 'Linux'
       run: |
