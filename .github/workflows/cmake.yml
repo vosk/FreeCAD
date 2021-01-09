@@ -75,7 +75,8 @@ jobs:
       if: runner.os == 'Linux' 
       run: |
         echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
-        #echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
+        #https://forum.freecadweb.org/viewtopic.php?f=3&t=40677
+        echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
 
     - name: Install compiler ${{matrix.config.cc}} (Linux)
