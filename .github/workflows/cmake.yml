@@ -47,7 +47,7 @@ jobs:
           config:
           - {
               cc: "gcc", cxx: "g++",
-              cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"]
+              cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
             }
 
     steps:
