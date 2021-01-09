@@ -175,7 +175,7 @@ jobs:
         mkdir build && cd build 
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
         cmake -Wno-dev -G"${GENERATOR}" \
-        ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5}../
+        ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
     - name: Install and Test (Linux)
       if: runner.os == 'Linux'
       run: |
