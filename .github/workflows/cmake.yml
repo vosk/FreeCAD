@@ -120,7 +120,8 @@ jobs:
           sudo apt-get install -y \
             libvtk7-dev      \
             pyside2-tools     \
-            python3-pyside2.qtopengl
+            pyside2-rcc
+            python3-pyside2.qtopengl 
         fi
 
         # Runtime deps
@@ -158,7 +159,8 @@ jobs:
         libqt5opengl5-dev                \
         qttools5-dev                     \
         qtwebengine5-dev                 \
-        qtbase5-dev                      
+        qtbase5-dev                      \
+        pyqt5-dev-tools
 
     - name: Checkout 
       uses: actions/checkout@v2
