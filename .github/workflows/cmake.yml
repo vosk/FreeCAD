@@ -19,6 +19,7 @@ jobs:
         qt: ["qt5"]
         shiboken: ["2"]
         pyside: ["2"]
+        python: ["3"]
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
@@ -35,12 +36,13 @@ jobs:
         include:
         - os: ubuntu-16.04
           qt: "qt5"
-          shiboken: "2"
-          pyside: "2"
+          shiboken: ""
+          pyside: ""
+          python: ""
           config:
             {
               cc: "gcc", cxx: "g++",
-              cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON"
             }
        
     steps:
@@ -104,10 +106,10 @@ jobs:
         sudo apt-get update -qq
         # Build deps
         sudo apt-get install -y --no-install-recommends         \
-                               python3-dev                      \
-                               python3-matplotlib               \
-                               python3-pivy                     \
-                               python3-ply                      \
+                               python${{matrix.python}}-dev     \
+                               python${{matrix.python}}-matplotlib \
+                               python${{matrix.python}}-pivy    \
+                               python${{matrix.python}}-ply     \
                                libboost-dev                     \
                                libboost-filesystem-dev          \
                                libboost-program-options-dev     \
@@ -131,7 +133,7 @@ jobs:
                                libmetis-dev                     \
                                libspnav-dev                     \
                                libshiboken${{matrix.shiboken}}-dev  \
-                               shiboken${{matrix.shiboken}}         \
+                               shiboken${{matrix.shiboken}}     \
                                ccache
 
         if [[ $(lsb_release -rs) == "16.04" ]]; then 
@@ -168,8 +170,8 @@ jobs:
         libqtwebkit-dev                  \
         libpyside-dev                    \
         pyside${{matrix.pyside}}-tools                     \
-        python3-pyside                   \
-        python3-pyqt4
+        python${{matrix.python}}-pyside  \
+        python{{matrix.python}}-pyqt4
 
     - name: Install QT5 (Linux)
       if: matrix.qt == 'qt5' && matrix.os != 'ubuntu-16.04'
@@ -182,8 +184,9 @@ jobs:
         qttools5-dev                     \
         qtwebengine5-dev                 \
         qtbase5-dev                      \
+        libpyside${{matrix.pyside}}-dev  \
         pyside${{matrix.pyside}}-tools   \
-        python3-pyside${{matrix.pyside}}.qtopengl         \
+        python{{matrix.python}}-pyside${{matrix.pyside}}.qtopengl \
         pyqt5-dev-tools
 
     - name: Install QT5 - Ubuntu 16.04 (Linux)
@@ -199,7 +202,7 @@ jobs:
         qtbase5-dev                      \
         libpyside${{matrix.pyside}}-dev  \
         pyside${{matrix.pyside}}-tools   \
-        python3-pyside${{matrix.pyside}} \
+        python{{matrix.python}}-pyside${{matrix.pyside}} \
         pyqt5-dev-tools
 
     - name: Checkout 
