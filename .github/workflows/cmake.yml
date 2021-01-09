@@ -153,7 +153,8 @@ jobs:
         sudo apt-get install -y --no-install-recommends          \
         qt4-qmake                        \
         libqt4-opengl-dev                \
-        libqtwebkit-dev
+        libqtwebkit-dev                  \
+        libshiboken-dev
 
     - name: Install QT5 (Linux)
       if: runner.os == 'Linux' && matrix.qt == 'qt5'
