@@ -78,11 +78,11 @@ jobs:
         #echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
 
-    - name: Install clang 10 (Linux)
-      if: runner.os == 'Linux' && matrix.config.cc == 'clang-10'
+    - name: Install compiler ${{matrix.config.cc}} (Linux)
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update -qq
-        sudo apt-get install clang-10
+        sudo apt-get install ${{matrix.config.cc}}  ${{matrix.config.cxx}}
 
     - name: Install Dependencies (Linux)
       if: runner.os == 'Linux'
