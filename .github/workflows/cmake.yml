@@ -35,7 +35,7 @@ jobs:
         include:
         - os: ubuntu-16.04
           qt: "qt5"
-          shiboken: "1"
+          shiboken: ""
           pyside: "2"
           config:
             {
