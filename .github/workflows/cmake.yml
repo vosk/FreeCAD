@@ -120,7 +120,6 @@ jobs:
           sudo apt-get install -y \
             libvtk7-dev      \
             pyside2-tools     \
-            pyside2-rcc
             python3-pyside2.qtopengl 
         fi
 
