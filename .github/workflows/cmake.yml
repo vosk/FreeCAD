@@ -158,6 +158,8 @@ jobs:
         qt4-qmake                        \
         libqt4-opengl-dev                \
         libqtwebkit-dev                  \
+        libpyside-dev                    \
+        pyside-tools                     \
         libshiboken-dev
 
     - name: Install QT5 (Linux)
