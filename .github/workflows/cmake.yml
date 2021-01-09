@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-18.04, ubuntu-16.04]
+        os: [ubuntu-20.04, ubuntu-18.04]
         qt: ["qt5", "qt4"]
         config:
         - {
@@ -34,12 +34,14 @@ jobs:
         # excludes node 4 on macOS
         - os: ubuntu-20.04
           qt: "qt4"
-        - os: ubuntu-16.04
+        include:
+        - os: ubuntu-20.04
+          qt: ["qt5", "qt4"]
           config:
-            cc :"gcc-10"
-        - os: ubuntu-16.04
-          config:
-            cc:"clang-10"
+          - {
+              cc: "gcc", cxx: "g++",
+              cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
+            }
 
     steps:
     - name: Get Date
@@ -164,6 +166,7 @@ jobs:
         pyside-tools                     \
         python3-pyside                   \
         pyside-tools                     \
+        python3-pyqt4                    \
         libshiboken-dev
 
     - name: Install QT5 (Linux)
@@ -192,8 +195,8 @@ jobs:
         qttools5-dev                     \
         libqt5webkit5-dev                \
         qtbase5-dev                      \
-        pyside2-tools                    \
-        python3-pyside2.qtopengl         \
+        pyside-tools                     \
+        python3-pyside                   \
         pyqt5-dev-tools
 
     - name: Checkout 
