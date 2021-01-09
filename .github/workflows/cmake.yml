@@ -30,6 +30,14 @@ jobs:
             cc: "gcc", cxx: "g++",
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
           }
+      exclude:
+      # excludes node 4 on macOS
+      - os: ubuntu-20.04
+        qt: "qt4"
+      - os: ubuntu-16.04
+        config.cc: "gcc-10"
+      - os: ubuntu-16.04
+        config.cc: "clang-10"
 
     steps:
     - name: Get Date
@@ -120,19 +128,10 @@ jobs:
 
         if [[ $(lsb_release -rs) == "16.04" ]]; then 
           sudo apt-get install -y \
-            libvtk6-dev      \
-            pyside-tools     \
-            python3-pyside
-        elif [[ $(lsb_release -rs) == "18.04" ]]; then 
-          sudo apt-get install -y \
-            libvtk7-dev      \
-            pyside2-tools     \
-            python3-pyside2.qtopengl
+            libvtk6-dev
         else
           sudo apt-get install -y \
-            libvtk7-dev      \
-            pyside2-tools     \
-            python3-pyside2.qtopengl 
+            libvtk7-dev
         fi
 
         # Runtime deps
@@ -161,10 +160,12 @@ jobs:
         libqtwebkit-dev                  \
         libpyside-dev                    \
         pyside-tools                     \
+        python3-pyside                   \
+        pyside-tools                     \
         libshiboken-dev
 
     - name: Install QT5 (Linux)
-      if: runner.os == 'Linux' && matrix.qt == 'qt5'
+      if: matrix.qt == 'qt5' && matrix.os != 'ubuntu-16.04'
       run: |
         sudo apt-get install -y --no-install-recommends          \
         qt5-qmake                        \
@@ -174,6 +175,23 @@ jobs:
         qttools5-dev                     \
         qtwebengine5-dev                 \
         qtbase5-dev                      \
+        pyside2-tools                    \
+        python3-pyside2.qtopengl         \
+        pyqt5-dev-tools
+
+    - name: Install QT5 - Ubuntu 16.04 (Linux)
+      if: matrix.qt == 'qt5' && matrix.os == 'ubuntu-16.04'
+      run: |
+        sudo apt-get install -y --no-install-recommends          \
+        qt5-qmake                        \
+        libqt5xmlpatterns5-dev           \
+        libqt5svg5-dev                   \
+        libqt5opengl5-dev                \
+        qttools5-dev                     \
+        libqt5webkit5-dev                \
+        qtbase5-dev                      \
+        pyside2-tools                    \
+        python3-pyside2.qtopengl         \
         pyqt5-dev-tools
 
     - name: Checkout 
