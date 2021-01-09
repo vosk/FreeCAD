@@ -186,7 +186,7 @@ jobs:
         qtbase5-dev                      \
         libpyside${{matrix.pyside}}-dev  \
         pyside${{matrix.pyside}}-tools   \
-        python{{matrix.python}}-pyside${{matrix.pyside}}.qtopengl \
+        python${{matrix.python}}-pyside${{matrix.pyside}}.qtopengl \
         pyqt5-dev-tools
 
     - name: Install QT5 - Ubuntu 16.04 (Linux)
@@ -202,7 +202,7 @@ jobs:
         qtbase5-dev                      \
         libpyside${{matrix.pyside}}-dev  \
         pyside${{matrix.pyside}}-tools   \
-        python{{matrix.python}}-pyside${{matrix.pyside}} \
+        python${{matrix.python}}-pyside${{matrix.pyside}} \
         pyqt5-dev-tools
 
     - name: Checkout 
