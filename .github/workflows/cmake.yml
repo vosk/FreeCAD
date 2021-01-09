@@ -36,12 +36,15 @@ jobs:
           qt: "qt4"
         include:
         - os: ubuntu-16.04
-          qt: ["qt5", "qt4"]
+          qt: "qt5"
           config:
-          - {
               cc: "gcc", cxx: "g++",
               cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
-            }
+        - os: ubuntu-16.04
+          qt: "qt4"
+          config:
+              cc: "gcc", cxx: "g++",
+              cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
 
     steps:
     - name: Get Date
