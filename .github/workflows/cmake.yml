@@ -35,7 +35,7 @@ jobs:
         include:
         - os: ubuntu-16.04
           qt: "qt5"
-          shiboken: ""
+          shiboken: "2"
           pyside: "2"
           config:
             {
@@ -131,6 +131,7 @@ jobs:
                                libmetis-dev                     \
                                libspnav-dev                     \
                                libshiboken${{matrix.shiboken}}-dev  \
+                               shiboken${{matrix.shiboken}}         \
                                ccache
 
         if [[ $(lsb_release -rs) == "16.04" ]]; then 
@@ -196,6 +197,7 @@ jobs:
         qttools5-dev                     \
         libqt5webkit5-dev                \
         qtbase5-dev                      \
+        libpyside${{matrix.pyside}}-dev  \
         pyside${{matrix.pyside}}-tools   \
         python3-pyside${{matrix.pyside}} \
         pyqt5-dev-tools
