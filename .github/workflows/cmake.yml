@@ -5,7 +5,6 @@ on: [push, pull_request]
 env:
   CMAKE_BUILD_TYPE: "Release"
   CCACHE_COMPRESS: 1
-  CCACHE_DIR: ${{ runner.workspace }}/ccache
 
 jobs:
   build:
@@ -94,8 +93,6 @@ jobs:
       #if: runner.os == 'Linux' 
       with:
         path: |
-          #~/.ccache
-          #$HOME/ccache
           ${{ runner.workspace }}/ccache
         key: ${{  steps.matrix-name.outputs.concat }}-cache-ccache-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
         restore-keys: |
@@ -110,6 +107,7 @@ jobs:
         #https://forum.freecadweb.org/viewtopic.php?f=3&t=40677
         echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
+        echo "CCACHE_DIR=${{ runner.workspace }}/ccache" >> $GITHUB_ENV
         #"${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}">> $GITHUB_ENV || true
 
     - name: Install compiler ${{matrix.config.cc}} (Linux)
