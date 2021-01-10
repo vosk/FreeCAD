@@ -3,7 +3,6 @@ name: CMake
 on: [push, pull_request]
 
 env:
-  GENERATOR: "Ninja"
   CMAKE_BUILD_TYPE: "Release"
   CCACHE_COMPRESS: 1
   #CCACHE_DIR=: $HOME/.ccache
@@ -23,15 +22,19 @@ jobs:
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
-            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
+            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON",
+            generator: "Unix Makefiles"
+
           }
         - {
             cc: "clang-10", cxx: "clang++-10",
-            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
+            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON",
+            generator: "Unix Makefiles"
           }
         - {
             cc: "gcc", cxx: "g++",
-            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
+            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON",
+            generator: "Unix Makefiles"
           }
         include:
         - os: ubuntu-16.04
@@ -42,14 +45,16 @@ jobs:
           config:
             {
               cc: "gcc", cxx: "g++",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON"
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON",
+              generator: "Unix Makefiles"
             }
         - os: windows-2016
           qt: "qt5"
           config:
             {
               cc: "cl", cxx: "cl",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON"
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON",
+              generator: "Ninja"
             }
        
     steps:
@@ -231,7 +236,7 @@ jobs:
       run: |
         mkdir "${{ runner.workspace }}/build" && cd "${{ runner.workspace }}/build"
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
-        cmake $GITHUB_WORKSPACE -Wno-dev -G"${GENERATOR}" \
+        cmake $GITHUB_WORKSPACE -Wno-dev -G"${matrix.config.generator}" \
         ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
 
     - name: Install and Test (Linux)
