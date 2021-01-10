@@ -262,17 +262,22 @@ jobs:
         $PYTHON_ARGS \
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
 
-    - name: Install and Test (Windows)
+    - name: Build and install (Windows)
       if: runner.os == 'Windows'
       shell: bash
       run: |
         cd "${{ runner.workspace }}/build"
-        ccache -z -s -M 400M
-        echo "::group::Run cmake install"
-        cmake --install ./ --prefix "${{ runner.workspace }}/install" -j 2
+        ccache -z -M 400M
+        echo "::group::Run cmake build"
+        cmake --build ./ -j 2
         echo "::endgroup::"
+
         echo "::group::ccache statistics"
         ccache -s
+        echo "::endgroup::"
+
+        echo "::group::Run cmake install"
+        cmake --install ./ --prefix "${{ runner.workspace }}/install"
         echo "::endgroup::"
 
     - name: Install and Test (Linux)
