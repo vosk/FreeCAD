@@ -107,7 +107,7 @@ jobs:
         #https://forum.freecadweb.org/viewtopic.php?f=3&t=40677
         echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
-        [ "${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}" >> $GITHUB_ENV
+        #"${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}">> $GITHUB_ENV || true
 
     - name: Install compiler ${{matrix.config.cc}} (Linux)
       if: runner.os == 'Linux'
@@ -247,7 +247,9 @@ jobs:
       run: |
         mkdir "${{ runner.workspace }}/build" && cd "${{ runner.workspace }}/build"
         CMAKE_FREECAD_LIB_ARGS=""
-        [ "$FREECAD_LIBPACK_DIR" != "" ] && CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR"
+        [ "$FREECAD_LIBPACK_DIR" != "" ] && \
+        CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR"
+        which python
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
         cmake $GITHUB_WORKSPACE -Wno-dev -G"${{matrix.config.generator}}" \
         ${{matrix.config.cmake_flags}} $CMAKE_FREECAD_LIB_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
