@@ -22,7 +22,7 @@ jobs:
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
-            cmake_flags: -DBUILD_FEM_NETGEN=ON",
+            cmake_flags: "-DBUILD_FEM_NETGEN=ON",
             generator: "Unix Makefiles"
 
           }
@@ -250,7 +250,7 @@ jobs:
         CMAKE_FREECAD_LIB_ARGS=""
 
         [ "$FREECAD_LIBPACK_DIR" != "" ] && \
-        CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR"
+        CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR" || true
 
         PYTHON_ARGS="-DPYTHON_EXECUTABLE=$(which python${{matrix.python}})"
 
@@ -260,6 +260,16 @@ jobs:
         $PYTHON_ARGS \
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
 
+    - name: Install and Test (Windows)
+      if: runner.os == 'Windows'
+      shell: bash
+      run: |
+        N=$(($(grep -c ^processor /proc/cpuinfo) + 1))
+        cd "${{ runner.workspace }}/build"
+        echo "::group::Run cmake"
+        sudo cmake --build ./ --target install -j ${N}
+        echo "::endgroup::"
+        
     - name: Install and Test (Linux)
       if: runner.os == 'Linux'
       run: |
