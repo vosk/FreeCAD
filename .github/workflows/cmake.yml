@@ -236,7 +236,7 @@ jobs:
       run: |
         mkdir "${{ runner.workspace }}/build" && cd "${{ runner.workspace }}/build"
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
-        cmake $GITHUB_WORKSPACE -Wno-dev -G"${matrix.config.generator}" \
+        cmake $GITHUB_WORKSPACE -Wno-dev -G"${{matrix.config.generator}}" \
         ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
 
     - name: Install and Test (Linux)
