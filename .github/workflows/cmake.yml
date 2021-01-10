@@ -83,7 +83,7 @@ jobs:
         sudo chown -R $(whoami):$(id -ng) /var/cache/apt/archives
 
     - name: Cache Apt (Linux)
-      if: runner.os == 'Linux'
+      if: runner.os == 'Linux' && false
       uses: pat-s/always-upload-cache@v2.1.3
       with:
         path: /var/cache/apt/archives/*.deb
@@ -280,6 +280,7 @@ jobs:
         cmake $GITHUB_WORKSPACE -Wno-dev -G"${{matrix.config.generator}}" \
         ${{matrix.config.cmake_flags}} $CMAKE_FREECAD_LIB_ARGS \
         $PYTHON_ARGS \
+        -DCMAKE_INSTALL_PREFIX:PATH="${{ runner.workspace }}/install" \
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
 
     - name: Build and install using CMake
@@ -292,7 +293,7 @@ jobs:
           ${{matrix.config.compiler_cache}} -z -M 400M
         fi
           echo "::group::Run cmake build"
-          cmake --build ./
+          cmake --build ./ --prefix "${{ runner.workspace }}/install"
           echo "::endgroup::"
 
         if [ "${{matrix.config.compiler_cache}}" != "" ]
@@ -303,7 +304,7 @@ jobs:
         fi
 
         echo "::group::Run cmake install"
-        cmake --install ./ --prefix "${{ runner.workspace }}/install"
+        cmake --install ./
         echo "::endgroup::"
 
     - name: Install and Test (Linux)
