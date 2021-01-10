@@ -35,13 +35,19 @@ jobs:
           }
         include:
         - os: ubuntu-16.04
-          qt: "qt5"
+          qt: "qt4"
           shiboken: ""
           pyside: ""
           python: ""
           config:
             {
               cc: "gcc", cxx: "g++",
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON"
+            }
+        - os: windows-2019
+          config:
+            {
+              cc: "msvc"
               cmake_flags: "-DBUILD_FEM_NETGEN=ON"
             }
        
@@ -54,7 +60,8 @@ jobs:
       
     - name: Generate Matrix unique name
       id: matrix-name
-      if: runner.os == 'Linux'
+      #if: runner.os == 'Linux'
+      shell: bash
       run: |
         echo "::set-output name=concat::${{ matrix.os }}-${{matrix.config.cc}}-${{matrix.qt}}"
         qt_number=$(echo ${{ matrix.qt }} | cut -c3-3)
