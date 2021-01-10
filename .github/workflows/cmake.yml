@@ -3,7 +3,7 @@ name: CMake
 on: [push, pull_request]
 
 env:
-  GENERATOR: "Unix Makefiles"
+  GENERATOR: "Ninja"
   CMAKE_BUILD_TYPE: "Release"
   CCACHE_COMPRESS: 1
   #CCACHE_DIR=: $HOME/.ccache
@@ -110,6 +110,10 @@ jobs:
         sudo apt-get update -qq
         sudo apt-get install ${{matrix.config.cc}}  ${{matrix.config.cxx}}
 
+    - name: Install Dependencies (Windows)
+      if: runner.os == 'Windows'
+      run: choco install ninja
+      
     - name: Install Dependencies (Linux)
       if: runner.os == 'Linux'
       run: |
