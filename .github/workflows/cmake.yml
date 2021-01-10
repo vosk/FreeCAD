@@ -293,7 +293,7 @@ jobs:
           ${{matrix.config.compiler_cache}} -z -M 400M
         fi
           echo "::group::Run cmake build"
-          cmake --build ./ --prefix "${{ runner.workspace }}/install"
+          cmake --build ./
           echo "::endgroup::"
 
         if [ "${{matrix.config.compiler_cache}}" != "" ]
