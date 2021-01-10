@@ -120,7 +120,6 @@ jobs:
       shell: bash
       run: |
         choco install ninja
-        pwd
         curl -L https://github.com/FreeCAD/FreeCAD/releases/download/0.19_pre/FreeCADLibs_12.1.6_x64_VC15.7z --output FreeCADLibs.7z
         7z x FreeCADLibs.7z -o"${{ runner.workspace }}\FreeCADLibs" > /dev/null
         rm -f FreeCADLibs.7z
@@ -246,13 +245,19 @@ jobs:
       shell: bash
       run: |
         mkdir "${{ runner.workspace }}/build" && cd "${{ runner.workspace }}/build"
+
         CMAKE_FREECAD_LIB_ARGS=""
+
         [ "$FREECAD_LIBPACK_DIR" != "" ] && \
         CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR"
-        which python
+
+        PYTHON_ARGS="-DPYTHON_EXECUTABLE=$(which python)"
+
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
         cmake $GITHUB_WORKSPACE -Wno-dev -G"${{matrix.config.generator}}" \
-        ${{matrix.config.cmake_flags}} $CMAKE_FREECAD_LIB_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
+        ${{matrix.config.cmake_flags}} $CMAKE_FREECAD_LIB_ARGS \
+        $PYTHON_ARGS \
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
 
     - name: Install and Test (Linux)
       if: runner.os == 'Linux'
