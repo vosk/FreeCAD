@@ -5,7 +5,7 @@ on: [push, pull_request]
 env:
   CMAKE_BUILD_TYPE: "Release"
   CCACHE_COMPRESS: 1
-  #CCACHE_DIR=: $HOME/.ccache
+  CCACHE_DIR: ${{ runner.workspace }}/ccache
 
 jobs:
   build:
@@ -94,8 +94,9 @@ jobs:
       #if: runner.os == 'Linux' 
       with:
         path: |
-          ~/.ccache
-          $HOME/.ccache
+          #~/.ccache
+          #$HOME/ccache
+          ${{ runner.workspace }}/ccache
         key: ${{  steps.matrix-name.outputs.concat }}-cache-ccache-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
         restore-keys: |
           ${{  steps.matrix-name.outputs.concat }}-cache-ccache-${{ steps.get-date.outputs.date }}-
