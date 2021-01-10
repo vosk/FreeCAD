@@ -118,11 +118,12 @@ jobs:
       shell: bash
       run: |
         choco install ninja
+        pwd
         curl -L https://github.com/FreeCAD/FreeCAD/releases/download/0.19_pre/FreeCADLibs_12.1.6_x64_VC15.7z --output FreeCADLibs.7z
-        7z x FreeCADLibs.7z -oFreeCADLibs > /dev/null
+        7z x FreeCADLibs.7z -o"${{ runner.workspace }}/FreeCADLibs" > /dev/null
         rm -f FreeCADLibs.7z
-        echo "FREECAD_LIBPACK_DIR\=${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15'" >> $GITHUB_ENV
-        ls -la "${{ runner.workspace }}\FreeCADLibs"
+        echo "FREECAD_LIBPACK_DIR\=${{ runner.workspace }}/FreeCADLibs/FreeCADLibs_12.1.6_x64_VC15'" >> $GITHUB_ENV
+        ls -la "${{ runner.workspace }}/FreeCADLibs"
 
     - name: Install Dependencies (Linux)
       if: runner.os == 'Linux'
