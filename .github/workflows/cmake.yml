@@ -245,7 +245,7 @@ jobs:
       run: |
         mkdir "${{ runner.workspace }}/build" && cd "${{ runner.workspace }}/build"
         CMAKE_FREECAD_LIB_ARGS=""
-        [ "$FREECAD_LIBPACK_DIR" !="" ] && CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR"
+        [ "$FREECAD_LIBPACK_DIR" != "" ] && CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR"
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
         cmake $GITHUB_WORKSPACE -Wno-dev -G"${{matrix.config.generator}}" \
         ${{matrix.config.cmake_flags}} $CMAKE_FREECAD_LIB_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
