@@ -50,7 +50,7 @@ jobs:
           qt: "qt5"
           config:
             {
-              cc: "msvc",
+              cc: "cl", cxx: "cl",
               cmake_flags: "-DBUILD_FEM_NETGEN=ON"
             }
        
@@ -182,7 +182,7 @@ jobs:
         libpyside-dev                    \
         pyside${{matrix.pyside}}-tools                     \
         python${{matrix.python}}-pyside  \
-        python{{matrix.python}}-pyqt4
+        python${{matrix.python}}-pyqt4
 
     - name: Install QT5 (Linux)
       if: runner.os == 'Linux' && matrix.qt == 'qt5' && matrix.os != 'ubuntu-16.04'
@@ -216,9 +216,16 @@ jobs:
         python${{matrix.python}}-pyside${{matrix.pyside}} \
         pyqt5-dev-tools
 
+    - name: Configure MSVC Command Prompt
+      if: runner.os == 'Windows'
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
+
     - name: Checkout 
       uses: actions/checkout@v2
     - name: Configure
+      shell: bash
       run: |
         mkdir build && cd build 
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
