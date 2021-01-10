@@ -310,6 +310,7 @@ jobs:
         echo "::group::ccache statistics"
         ccache -s
         ls -la $CCACHE_DIR
+        ls -la ~/.ccache
         echo "::endgroup::"
         #make clean
         #cmake --build ./ --target FreeCADBase  -j ${N}
