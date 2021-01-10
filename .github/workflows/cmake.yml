@@ -108,6 +108,7 @@ jobs:
         echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
         echo "CCACHE_DIR=${{ runner.workspace }}/ccache" >> $GITHUB_ENV
+        ls -la ${{ runner.workspace }}/ccache
         #"${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}">> $GITHUB_ENV || true
 
     - name: Install compiler ${{matrix.config.cc}} (Linux)
