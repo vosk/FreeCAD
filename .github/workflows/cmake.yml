@@ -50,7 +50,7 @@ jobs:
             }
         - os: windows-2016
           qt: "qt5"
-          python: "3"
+          python: ""
           config:
             {
               cc: "cl", cxx: "cl",
