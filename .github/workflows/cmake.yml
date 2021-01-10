@@ -264,10 +264,9 @@ jobs:
       if: runner.os == 'Windows'
       shell: bash
       run: |
-        N=$(($(grep -c ^processor /proc/cpuinfo) + 1))
         cd "${{ runner.workspace }}/build"
-        echo "::group::Run cmake"
-        cmake --build ./ --target install --prefix "${{ runner.workspace }}/install" -j ${N}
+        echo "::group::Run cmake install"
+        cmake --build ./ --target install --prefix "${{ runner.workspace }}/install" -j 2
         echo "::endgroup::"
 
     - name: Install and Test (Linux)
