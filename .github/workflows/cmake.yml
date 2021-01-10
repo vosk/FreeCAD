@@ -267,9 +267,9 @@ jobs:
         N=$(($(grep -c ^processor /proc/cpuinfo) + 1))
         cd "${{ runner.workspace }}/build"
         echo "::group::Run cmake"
-        sudo cmake --build ./ --target install -j ${N}
+        cmake --build ./ --target install --prefix "${{ runner.workspace }}/install" -j ${N}
         echo "::endgroup::"
-        
+
     - name: Install and Test (Linux)
       if: runner.os == 'Linux'
       run: |
