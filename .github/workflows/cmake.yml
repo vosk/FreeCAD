@@ -62,6 +62,7 @@ jobs:
       id: get-date
       run: |
         echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        mkdir "${{ runner.workspace }}/ccache"
       shell: bash
       
     - name: Generate Matrix unique name
