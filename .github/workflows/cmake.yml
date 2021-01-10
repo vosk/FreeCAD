@@ -22,18 +22,20 @@ jobs:
         - {
             cc: "gcc-10", cxx: "g++-10",
             cmake_flags: "-DBUILD_FEM_NETGEN=ON",
-            generator: "Unix Makefiles"
-
+            generator: "Unix Makefiles",
+            compiler_cache: "ccache"
           }
         - {
             cc: "clang-10", cxx: "clang++-10",
             cmake_flags: "-DBUILD_FEM_NETGEN=ON",
-            generator: "Unix Makefiles"
+            generator: "Unix Makefiles",
+            compiler_cache: "ccache"
           }
         - {
             cc: "gcc", cxx: "g++",
             cmake_flags: "-DBUILD_FEM_NETGEN=ON",
-            generator: "Unix Makefiles"
+            generator: "Unix Makefiles",
+            compiler_cache: "ccache"
           }
         include:
         - os: ubuntu-16.04
@@ -45,7 +47,8 @@ jobs:
             {
               cc: "gcc", cxx: "g++",
               cmake_flags: "-DBUILD_FEM_NETGEN=ON",
-              generator: "Unix Makefiles"
+              generator: "Unix Makefiles",
+              compiler_cache: "ccache"
             }
         - os: windows-2016
           qt: "qt5"
@@ -54,7 +57,8 @@ jobs:
             {
               cc: "cl", cxx: "cl",
               cmake_flags: "-DBUILD_FEM_NETGEN=ON -DFREECAD_RELEASE_PDB=OFF -DFREECAD_RELEASE_SEH=OFF -DFREECAD_USE_PCH=OFF",
-              generator: "Ninja"
+              generator: "Ninja",
+              compiler_cache: "buildcache"
             }
        
     steps:
@@ -88,16 +92,16 @@ jobs:
           ${{  steps.matrix-name.outputs.concat }}-cache-apt-${{ steps.get-date.outputs.date }}-
           ${{  steps.matrix-name.outputs.concat }}-cache-apt-
 
-    - name: Cache ccache
+    - name: Cache {{matrix.config.compiler_cache}}
       uses: pat-s/always-upload-cache@v2.1.3
       #if: runner.os == 'Linux' 
       with:
         path: |
-          ${{ runner.workspace }}/ccache
-        key: ${{  steps.matrix-name.outputs.concat }}-cache-ccache-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
+          ${{ runner.workspace }}/${{matrix.config.compiler_cache}}
+        key: ${{  steps.matrix-name.outputs.concat }}-cache-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
         restore-keys: |
-          ${{  steps.matrix-name.outputs.concat }}-cache-ccache-${{ steps.get-date.outputs.date }}-
-          ${{  steps.matrix-name.outputs.concat }}-cache-ccache-
+          ${{  steps.matrix-name.outputs.concat }}-cache-${{ steps.get-date.outputs.date }}-
+          ${{  steps.matrix-name.outputs.concat }}-cache-
 
     - name: Set Environment Variables
       #if: runner.os == 'Linux' 
@@ -107,11 +111,14 @@ jobs:
         #https://forum.freecadweb.org/viewtopic.php?f=3&t=40677
         echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
-        echo "CCACHE_DIR=${{ runner.workspace }}/ccache" >> $GITHUB_ENV
+        echo "CCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
         
         #"${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}">> $GITHUB_ENV || true
-        (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
-        ls -la ${{ runner.workspace }}/ccache || true
+        if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
+        then
+          (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
+          ls -la ${{ runner.workspace }}/ccache || true
+        fi
 
     - name: Install compiler ${{matrix.config.cc}} (Linux)
       if: runner.os == 'Linux'
@@ -130,12 +137,15 @@ jobs:
         echo "FREECAD_LIBPACK_DIR=${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15" >> $GITHUB_ENV
         echo "${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15\bin" >> $GITHUB_PATH
 
-        curl -L https://github.com/mbitsnbites/buildcache/releases/download/v0.23.0/buildcache-win-msvc.zip --output buildcache.zip
-        7z x buildcache.zip -o"${{ runner.workspace }}"  > /dev/null
-        echo "${{ runner.workspace }}\buildcache\bin" >> $GITHUB_PATH
-        echo "CMAKE_CXX_COMPILER_LAUNCHER=buildcache" >> $GITHUB_ENV
-        echo "BUILDCACHE_DIR=${{ runner.workspace }}/ccache" >> $GITHUB_ENV
-        echo "BUILDCACHE_COMPRESS=$CCACHE_COMPRESS" >> $GITHUB_ENV
+        if [ "${{matrix.config.compiler_cache}}" == "buildcache" ]
+        then
+          curl -L https://github.com/mbitsnbites/buildcache/releases/download/v0.23.0/buildcache-win-msvc.zip --output buildcache.zip
+          7z x buildcache.zip -o"${{ runner.workspace }}"  > /dev/null
+          echo "${{ runner.workspace }}\buildcache\bin" >> $GITHUB_PATH
+          echo "CMAKE_CXX_COMPILER_LAUNCHER=buildcache" >> $GITHUB_ENV
+          echo "BUILDCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
+          echo "BUILDCACHE_COMPRESS=$CCACHE_COMPRESS" >> $GITHUB_ENV
+        fi
         ls -la "${{ runner.workspace }}\FreeCADLibs"
         ls -la "${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15"
 
@@ -276,14 +286,20 @@ jobs:
       shell: bash
       run: |
         cd "${{ runner.workspace }}/build"
-        buildcache -z -M 400M
-        echo "::group::Run cmake build"
-        cmake --build ./ --target FreeCADBase
-        echo "::endgroup::"
+        if [ "${{matrix.config.compiler_cache}}" != "" ]
+        then
+          ${{matrix.config.compiler_cache}} -z -M 400M
+        fi
+          echo "::group::Run cmake build"
+          cmake --build ./ --target FreeCADBase
+          echo "::endgroup::"
 
-        echo "::group::ccache statistics"
-        buildcache -s
-        echo "::endgroup::"
+        if [ "${{matrix.config.compiler_cache}}" != "" ]
+        then
+          echo "::group::cache statistics"
+          ${{matrix.config.compiler_cache}} -s
+          echo "::endgroup::"
+        fi
 
         echo "::group::Run cmake install"
         cmake --install ./ --prefix "${{ runner.workspace }}/install"
