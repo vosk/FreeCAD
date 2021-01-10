@@ -33,8 +33,6 @@ jobs:
             cc: "gcc", cxx: "g++",
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
           }
-        exclude:
-        - qt: "qt5"
         include:
         - os: ubuntu-16.04
           qt: "qt4"
@@ -113,7 +111,7 @@ jobs:
     - name: Install Dependencies (Windows)
       if: runner.os == 'Windows'
       run: choco install ninja
-      
+
     - name: Install Dependencies (Linux)
       if: runner.os == 'Linux'
       run: |
