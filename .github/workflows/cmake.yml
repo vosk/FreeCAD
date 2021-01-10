@@ -96,7 +96,8 @@ jobs:
           ${{  steps.matrix-name.outputs.concat }}-cache-ccache-
 
     - name: Set Environment Variables (Linux)
-      if: runner.os == 'Linux' 
+      #if: runner.os == 'Linux' 
+      shell: bash
       run: |
         echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
         #https://forum.freecadweb.org/viewtopic.php?f=3&t=40677
@@ -184,7 +185,7 @@ jobs:
         python{{matrix.python}}-pyqt4
 
     - name: Install QT5 (Linux)
-      if: matrix.qt == 'qt5' && matrix.os != 'ubuntu-16.04'
+      if: runner.os == 'Linux' && matrix.qt == 'qt5' && matrix.os != 'ubuntu-16.04'
       run: |
         sudo apt-get install -y --no-install-recommends          \
         qt5-qmake                        \
@@ -223,6 +224,7 @@ jobs:
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
         cmake -Wno-dev -G"${GENERATOR}" \
         ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
+
     - name: Install and Test (Linux)
       if: runner.os == 'Linux'
       run: |
