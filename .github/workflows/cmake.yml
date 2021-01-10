@@ -22,18 +22,18 @@ jobs:
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
-            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON",
+            cmake_flags: -DBUILD_FEM_NETGEN=ON",
             generator: "Unix Makefiles"
 
           }
         - {
             cc: "clang-10", cxx: "clang++-10",
-            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON",
+            cmake_flags: "-DBUILD_FEM_NETGEN=ON",
             generator: "Unix Makefiles"
           }
         - {
             cc: "gcc", cxx: "g++",
-            cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON",
+            cmake_flags: "-DBUILD_FEM_NETGEN=ON",
             generator: "Unix Makefiles"
           }
         include:
@@ -54,7 +54,7 @@ jobs:
           config:
             {
               cc: "cl", cxx: "cl",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON",
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON -DFREECAD_RELEASE_PDB=OFF -DFREECAD_RELEASE_SEH=OFF",
               generator: "Ninja"
             }
        
@@ -124,6 +124,7 @@ jobs:
         7z x FreeCADLibs.7z -o"${{ runner.workspace }}\FreeCADLibs" > /dev/null
         rm -f FreeCADLibs.7z
         echo "FREECAD_LIBPACK_DIR=${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15" >> $GITHUB_ENV
+        ${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15\bin" >> $GITHUB_PATH
         ls -la "${{ runner.workspace }}\FreeCADLibs"
         ls -la "${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15"
 
@@ -251,7 +252,7 @@ jobs:
         [ "$FREECAD_LIBPACK_DIR" != "" ] && \
         CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR"
 
-        PYTHON_ARGS="-DPYTHON_EXECUTABLE=$(which python)"
+        PYTHON_ARGS="-DPYTHON_EXECUTABLE=$(which python${{matrix.python}})"
 
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
         cmake $GITHUB_WORKSPACE -Wno-dev -G"${{matrix.config.generator}}" \
