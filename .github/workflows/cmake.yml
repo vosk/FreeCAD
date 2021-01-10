@@ -126,6 +126,13 @@ jobs:
         rm -f FreeCADLibs.7z
         echo "FREECAD_LIBPACK_DIR=${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15" >> $GITHUB_ENV
         echo "${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15\bin" >> $GITHUB_PATH
+
+        curl -L https://github.com/mbitsnbites/buildcache/releases/download/v0.23.0/buildcache-win-msvc.zip --output buildcache.zip
+        7z x buildcache.zip -o"${{ runner.workspace }}"  > /dev/null
+        echo "${{ runner.workspace }}\buildcache\bin" >> $GITHUB_PATH
+        echo "CMAKE_CXX_COMPILER_LAUNCHER=buildcache" >> $GITHUB_ENV
+        echo "BUILDCACHE_DIR=${{ runner.workspace }}/ccache" >> $GITHUB_ENV
+        echo "BUILDCACHE_COMPRESS=$CCACHE_COMPRESS" >> $GITHUB_ENV
         ls -la "${{ runner.workspace }}\FreeCADLibs"
         ls -la "${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15"
 
@@ -266,13 +273,13 @@ jobs:
       shell: bash
       run: |
         cd "${{ runner.workspace }}/build"
-        #ccache -z -M 400M
+        buildcache -z -M 400M
         echo "::group::Run cmake build"
         cmake --build ./
         echo "::endgroup::"
 
         echo "::group::ccache statistics"
-        #ccache -s
+        buildcache -s
         echo "::endgroup::"
 
         echo "::group::Run cmake install"
