@@ -121,7 +121,7 @@ jobs:
         curl -L https://github.com/FreeCAD/FreeCAD/releases/download/0.19_pre/FreeCADLibs_12.1.6_x64_VC15.7z --output FreeCADLibs.7z
         7z x FreeCADLibs.7z -oFreeCADLibs > /dev/null
         rm -f FreeCADLibs.7z
-        echo "FREECAD_LIBPACK_ARG='-DFREECAD_LIBPACK_DIR\=${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15'" >> $GITHUB_ENV
+        echo "FREECAD_LIBPACK_DIR\=${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15'" >> $GITHUB_ENV
 
     - name: Install Dependencies (Linux)
       if: runner.os == 'Linux'
@@ -241,9 +241,11 @@ jobs:
       shell: bash
       run: |
         mkdir "${{ runner.workspace }}/build" && cd "${{ runner.workspace }}/build"
+        CMAKE_FREECAD_LIB_ARGS=""
+        [ "$FREECAD_LIBPACK_DIR" !="" ] && CMAKE_FREECAD_LIB_ARGS="-DFREECAD_LIBPACK_DIR=$FREECAD_LIBPACK_DIR"
         CC=${{matrix.config.cc}} CXX=${{matrix.config.cxx}} \
         cmake $GITHUB_WORKSPACE -Wno-dev -G"${{matrix.config.generator}}" \
-        ${{matrix.config.cmake_flags}} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
+        ${{matrix.config.cmake_flags}} $CMAKE_FREECAD_LIB_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
 
     - name: Install and Test (Linux)
       if: runner.os == 'Linux'
@@ -278,6 +280,6 @@ jobs:
         xvfb-run --auto-servernum ${INSTALLED_APP_PATH} --log-file /tmp/FreeCAD_installed.log &
         sleep 10 && pkill FreeCAD
         cat /tmp/FreeCAD_installed.log
-        grep --file=../.log_errors /tmp/FreeCAD_installed.log ; [ $? == 1 ] && \
+        grep --file=${{ runner.workspace }}/.log_errors /tmp/FreeCAD_installed.log ; [ $? == 1 ] && \
         echo "No errors from .log_errors file found in the log after start from /usr/local/bin" || \
         ( echo "::warning::Error from .log_errors found!" && false )
