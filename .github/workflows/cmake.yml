@@ -84,7 +84,7 @@ jobs:
 
     - name: Cache ccache (Linux)
       uses: pat-s/always-upload-cache@v2.1.3
-      if: runner.os == 'Linux' 
+      #if: runner.os == 'Linux' 
       with:
         path: ~/.ccache
         key: ${{  steps.matrix-name.outputs.concat }}-cache-ccache-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
