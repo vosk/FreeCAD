@@ -194,7 +194,7 @@ jobs:
         libqt4-opengl-dev                \
         libqtwebkit-dev                  \
         libpyside-dev                    \
-        pyside${{matrix.pyside}}-tool    \
+        pyside${{matrix.pyside}}-tools    \
         python${{matrix.python}}-pyside  \
         python${{matrix.python}}-qt4
 
