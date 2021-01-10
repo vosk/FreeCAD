@@ -46,7 +46,7 @@ jobs:
               cc: "gcc", cxx: "g++",
               cmake_flags: "-DBUILD_FEM_NETGEN=ON"
             }
-        - os: windows-2019
+        - os: windows-2016
           qt: "qt5"
           config:
             {
