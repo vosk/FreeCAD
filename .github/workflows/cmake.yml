@@ -292,7 +292,7 @@ jobs:
           ${{matrix.config.compiler_cache}} -z -M 400M
         fi
           echo "::group::Run cmake build"
-          cmake --build ./ --target FreeCADBase
+          cmake --build ./
           echo "::endgroup::"
 
         if [ "${{matrix.config.compiler_cache}}" != "" ]
