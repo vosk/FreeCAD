@@ -34,7 +34,7 @@ jobs:
             cmake_flags: "-DPYTHON_EXECUTABLE=/usr/bin/python3 -DBUILD_FEM_NETGEN=ON"
           }
         exclude:
-        - os: "qt5"
+        - qt: "qt5"
         include:
         - os: ubuntu-16.04
           qt: "qt4"
