@@ -275,7 +275,7 @@ jobs:
         cd "${{ runner.workspace }}/build"
         buildcache -z -M 400M
         echo "::group::Run cmake build"
-        cmake --build ./
+        cmake --build ./ --target FreeCADBase
         echo "::endgroup::"
 
         echo "::group::ccache statistics"
@@ -303,7 +303,7 @@ jobs:
         #sudo make -j${N} install
         #make -j${N} Part
         echo "::group::Run cmake"
-        sudo cmake --build ./ --target install -j ${N}
+        sudo cmake --build ./ --target FreeCADBase -j ${N}
         echo "::endgroup::"
         echo "::group::ccache statistics"
         ccache -s
