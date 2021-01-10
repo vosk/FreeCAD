@@ -118,7 +118,7 @@ jobs:
       shell: bash
       run: |
       choco install ninja
-      curl -L https://github.com/FreeCAD/FreeCAD/releases/download/0.19_pre/FreeCADLibs_12.1.6_x64_VC15.7z --output FreeCADLibs.7z
+      "curl -L https://github.com/FreeCAD/FreeCAD/releases/download/0.19_pre/FreeCADLibs_12.1.6_x64_VC15.7z --output FreeCADLibs.7z"
       7z x FreeCADLibs.7z -oFreeCADLibs > /dev/null
       rm -f FreeCADLibs.7z
       echo "FREECAD_LIBPACK_ARG='-DFREECAD_LIBPACK_DIR=FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15'" >> $GITHUB_ENV
