@@ -50,6 +50,7 @@ jobs:
             }
         - os: windows-2016
           qt: "qt5"
+          python: "3"
           config:
             {
               cc: "cl", cxx: "cl",
@@ -106,6 +107,7 @@ jobs:
         #https://forum.freecadweb.org/viewtopic.php?f=3&t=40677
         echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
+        [ "${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}" >> $GITHUB_ENV
 
     - name: Install compiler ${{matrix.config.cc}} (Linux)
       if: runner.os == 'Linux'
