@@ -53,7 +53,7 @@ jobs:
           config:
             {
               cc: "cl", cxx: "cl",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON -DFREECAD_RELEASE_PDB=OFF -DFREECAD_RELEASE_SEH=OFF",
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON -DFREECAD_RELEASE_PDB=OFF -DFREECAD_RELEASE_SEH=OFF -DFREECAD_USE_PCH=OFF",
               generator: "Ninja"
             }
        
