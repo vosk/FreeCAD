@@ -268,7 +268,7 @@ jobs:
         cd "${{ runner.workspace }}/build"
         ccache -z -M 400M
         echo "::group::Run cmake build"
-        cmake --build ./ -j 2
+        cmake --build ./
         echo "::endgroup::"
 
         echo "::group::ccache statistics"
