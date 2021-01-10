@@ -122,7 +122,7 @@ jobs:
         7z x FreeCADLibs.7z -oFreeCADLibs > /dev/null
         rm -f FreeCADLibs.7z
         echo "FREECAD_LIBPACK_DIR\=${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15'" >> $GITHUB_ENV
-        ls -la ${{ runner.workspace }}\FreeCADLibs
+        ls -la "${{ runner.workspace }}\FreeCADLibs"
 
     - name: Install Dependencies (Linux)
       if: runner.os == 'Linux'
