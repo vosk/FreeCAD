@@ -110,6 +110,7 @@ jobs:
       with:
         path: |
           ${{ runner.workspace }}/${{matrix.config.compiler_cache}}
+          !**/prgid
         key: ${{  steps.matrix-name.outputs.concat }}-cache-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
         restore-keys: |
           ${{  steps.matrix-name.outputs.concat }}-cache-${{ steps.get-date.outputs.date }}-
