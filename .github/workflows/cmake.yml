@@ -62,11 +62,11 @@ jobs:
             }
         - os: macos-10.15
           qt: "qt5"
-          python: ""
+          python: "3"
           config:
             {
               cc: "clang", cxx: "clang++",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON -DFREECAD_RELEASE_PDB=OFF -DFREECAD_RELEASE_SEH=OFF -DFREECAD_USE_PCH=OFF",
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON",
               generator: "Ninja",
               compiler_cache: "ccache"
             }
