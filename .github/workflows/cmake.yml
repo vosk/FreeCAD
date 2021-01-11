@@ -321,7 +321,7 @@ jobs:
           echo "" > $GITHUB_PATH
 
     - shell: cmd
-      if: runner.os == 'Windows'
+      if: runner.os == 'Windows' && ${{ always() }}
       run: echo "test"
 
 
