@@ -86,7 +86,7 @@ jobs:
         
         #"${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}">> $GITHUB_ENV || true
         #Make cache folder (quotes for windows) if missing
-        mkdir "${{matrix.config.compiler_cache}}" || true
+        mkdir "~/${{matrix.config.compiler_cache}}" || true
 
     - name: Change Apt Cache permissions
       if: runner.os == 'Linux'
@@ -109,7 +109,7 @@ jobs:
       #if: runner.os == 'Linux' 
       with:
         path: |
-          ${{matrix.config.compiler_cache}}
+          ~/${{matrix.config.compiler_cache}}
         key: ${{  steps.matrix-name.outputs.concat }}-cache-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
         restore-keys: |
           ${{  steps.matrix-name.outputs.concat }}-cache-${{ steps.get-date.outputs.date }}-
@@ -138,7 +138,7 @@ jobs:
           7z x buildcache.zip -o"${{ runner.workspace }}\buildcache-bin"  > /dev/null
           echo "${{ runner.workspace }}\buildcache-bin\buildcache\bin" >> $GITHUB_PATH
           echo "CMAKE_CXX_COMPILER_LAUNCHER=buildcache" >> $GITHUB_ENV
-          echo "BUILDCACHE_DIR=buildcache" >> $GITHUB_ENV
+          echo "BUILDCACHE_DIR=$HOME\buildcache" >> $GITHUB_ENV
           echo "BUILDCACHE_COMPRESS=$CCACHE_COMPRESS" >> $GITHUB_ENV
         fi
         ls -la "${{ runner.workspace }}\FreeCADLibs"
@@ -210,7 +210,7 @@ jobs:
         then
           (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
           ls -la ${{ runner.workspace }}/ccache || true
-           echo "CCACHE_DIR=${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
+           echo "CCACHE_DIR=~/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
         fi
 
     - name: Install QT4 (Linux)
