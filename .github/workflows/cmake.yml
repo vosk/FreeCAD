@@ -284,6 +284,7 @@ jobs:
         brew link --force vtk@8.2.0
         brew link --force coin@4.0.0
         brew link --overwrite qt5152
+        brew link --force boost-python3@1.75.0
 
         if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
         then
