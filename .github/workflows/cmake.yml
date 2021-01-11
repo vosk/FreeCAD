@@ -314,9 +314,17 @@ jobs:
         cmake --install ./
         echo "::endgroup::"
 
+      name: Cleanup paths (Windows)
+      if: runner.os == 'Windows'
+      shell: bash
+      run: |
+          echo "" > $GITHUB_ENV
+          echo "" > $GITHUB_PATH
+
     - name: Install and Test (Linux)
       if: runner.os == 'LinuxDISABLED'
       run: |
+
         export N=$(($(grep -c ^processor /proc/cpuinfo) + 1))
         cd ${{ runner.workspace }}/build
         # Stop compiling (GCC) after 2 hrs 50 min (3 hrs limit).
