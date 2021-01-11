@@ -314,8 +314,7 @@ jobs:
         cmake --install ./
         echo "::endgroup::"
 
-      name: Cleanup paths (Windows)
-      if: runner.os == 'Windows'
+    - name: Cleanup paths 
       shell: bash
       run: |
           echo "" > $GITHUB_ENV
