@@ -304,6 +304,7 @@ jobs:
           echo "::group::cache statistics"
           ${{matrix.config.compiler_cache}} -s
           echo "::endgroup::"
+          ls -Rla "${{ runner.workspace }}/${{matrix.config.compiler_cache}}"
         fi
         ls -la "${{ runner.workspace }}"
 
