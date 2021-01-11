@@ -279,7 +279,7 @@ jobs:
       #uses: mxschmitt/action-tmate@v3
       run: |
         brew tap FreeCAD/freecad
-        brew install ccache ninja tbb
+        brew install ccache ninja
         brew install --only-dependencies freecad
         brew link --force vtk@8.2.0
         brew link --force coin@4.0.0
@@ -287,7 +287,7 @@ jobs:
         brew link --force boost-python3@1.75.0
         brew link --force icu4c@67.1 
 
-        echo "LDFLAGS='-L/usr/local/opt/icu4c@67.1/lib'" >> $GITHUB_ENV
+        echo "LDFLAGS='-L/usr/local/opt/icu4c@67.1/lib -L/usr/local/lib'" >> $GITHUB_ENV
         if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
         then
           (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
