@@ -320,6 +320,11 @@ jobs:
           echo "" > $GITHUB_ENV
           echo "" > $GITHUB_PATH
 
+    - shell: cmd
+      if: runner.os == 'Windows'
+      run: echo "test"
+
+
     - name: Install and Test (Linux)
       if: runner.os == 'LinuxDISABLED'
       run: |
