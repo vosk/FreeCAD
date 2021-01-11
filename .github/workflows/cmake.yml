@@ -296,6 +296,9 @@ jobs:
           ls -la ${{ runner.workspace }}/ccache || true
            echo "CCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
         fi
+        ls -la /usr/local/lib
+        ls -la /usr/local/opt
+        ls -la /usr/local/opt/tbb@2020_u3/lib
 
     - name: Checkout 
       uses: actions/checkout@v2
