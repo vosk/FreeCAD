@@ -113,8 +113,8 @@ jobs:
         echo "CCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
         
         #"${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}">> $GITHUB_ENV || true
-        #Make cache folder
-        mkdir ${{ runner.workspace }}/${{matrix.config.compiler_cache}}
+        #Make cache folder (quotes for windows) if missing
+        mkdir "${{ runner.workspace }}/${{matrix.config.compiler_cache}}" || true
 
     - name: Install compiler ${{matrix.config.cc}} (Linux)
       if: runner.os == 'Linux'
