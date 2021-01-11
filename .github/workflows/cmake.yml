@@ -278,7 +278,7 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         brew tap FreeCAD/freecad
-        brew install ccache coreutils boost ninja xerces-c \
+        brew install ccache coreutils boost ninja xerces-c
         brew install freecad/freecad/coin 
         brew install freecad/freecad/nglib
         brew install freecad/freecad/med-file
