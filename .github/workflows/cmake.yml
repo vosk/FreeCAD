@@ -101,7 +101,7 @@ jobs:
 
     - name: Cache Apt (Linux)
       if: runner.os == 'Linux' && false
-      uses: actions/cache@v2
+      uses: pat-s/always-upload-cache@v2.1.3
       with:
         path: /var/cache/apt/archives/*.deb
         key: ${{  steps.matrix-name.outputs.concat }}-cache-apt-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
@@ -111,7 +111,7 @@ jobs:
 
     - name: Cache ${{matrix.config.compiler_cache}}
       if: matrix.config.compiler_cache != ''
-      uses: pat-s/always-upload-cache@v2.1.3
+      uses: actions/cache@v2
       #if: runner.os == 'Linux' 
       with:
         path: |
