@@ -83,11 +83,11 @@ jobs:
         #https://forum.freecadweb.org/viewtopic.php?f=3&t=40677
         echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         ([ "${{matrix.qt}}" == "qt5" ] && echo 'BUILD_QT5=ON' || echo 'BUILD_QT5=OFF') >> $GITHUB_ENV
-        echo "CCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
+        echo "CCACHE_DIR=~/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
         
         #"${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}">> $GITHUB_ENV || true
         #Make cache folder (quotes for windows) if missing
-        mkdir "${{ runner.workspace }}/${{matrix.config.compiler_cache}}" || true
+        mkdir "~/${{matrix.config.compiler_cache}}" || true
 
     - name: Change Apt Cache permissions
       if: runner.os == 'Linux'
@@ -110,7 +110,7 @@ jobs:
       #if: runner.os == 'Linux' 
       with:
         path: |
-          ${{ runner.workspace }}/${{matrix.config.compiler_cache}}
+          ~/${{matrix.config.compiler_cache}}
         key: ${{  steps.matrix-name.outputs.concat }}-cache-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
         restore-keys: |
           ${{  steps.matrix-name.outputs.concat }}-cache-${{ steps.get-date.outputs.date }}-
