@@ -279,7 +279,7 @@ jobs:
       #uses: mxschmitt/action-tmate@v3
       run: |
         brew tap FreeCAD/freecad
-        brew install ccache ninja
+        brew install ccache ninja tbb
         brew install --only-dependencies freecad
         brew link --force vtk@8.2.0
         brew link --force coin@4.0.0
