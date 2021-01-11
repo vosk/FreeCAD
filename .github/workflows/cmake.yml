@@ -297,7 +297,7 @@ jobs:
           #ls -Rla "${{ runner.workspace }}/${{matrix.config.compiler_cache}}"
         fi
           echo "::group::Run cmake build"
-          cmake --build ./ --target FreeCADBase
+          cmake --build ./ --target FreeCADBase 
           echo "::endgroup::"
 
         if [ "${{matrix.config.compiler_cache}}" != "" ]
