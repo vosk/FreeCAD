@@ -136,8 +136,8 @@ jobs:
         if [ "${{matrix.config.compiler_cache}}" == "buildcache" ]
         then
           curl -L https://github.com/mbitsnbites/buildcache/releases/download/v0.23.0/buildcache-win-msvc.zip --output buildcache.zip
-          7z x buildcache.zip -o"${{ runner.workspace }}"  > /dev/null
-          echo "${{ runner.workspace }}\buildcache\bin" >> $GITHUB_PATH
+          7z x buildcache.zip -o"${{ runner.workspace }}\buildcache-bin"  > /dev/null
+          echo "${{ runner.workspace }}\buildcache-bin\buildcache\bin" >> $GITHUB_PATH
           echo "CMAKE_CXX_COMPILER_LAUNCHER=buildcache" >> $GITHUB_ENV
           echo "BUILDCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
           echo "BUILDCACHE_COMPRESS=$CCACHE_COMPRESS" >> $GITHUB_ENV
