@@ -278,7 +278,7 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         brew tap FreeCAD/freecad
-        brew install ccache coreutils boost ninja xerces-c
+        brew install ccache
         brew install --only-dependencies freecad 
 
         if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
