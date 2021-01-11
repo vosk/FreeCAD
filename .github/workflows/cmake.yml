@@ -279,15 +279,15 @@ jobs:
       run: |
         brew tap FreeCAD/freecad
         brew install ccache coreutils boost ninja xerces-c \
-          freecad/coin          \
-          freecad/nglib         \
-          freecad/med-file      \
-          freecad/opencamlib    \
-          freecad/shiboken2     \
-          freecad/pyside2       \
-          freecad/pyside2-tools \
-          freecad/pivy          \
-          freecad/matplotlib
+        brew install freecad/freecad/coin 
+        brew install freecad/freecad/nglib
+        brew install freecad/freecad/med-file
+        brew install freecad/freecad/opencamlib
+        brew install freecad/freecad/shiboken2
+        brew install freecad/freecad/pyside2
+        brew install freecad/freecad/pyside2-tools
+        brew install freecad/freecad/pivy
+        brew install freecad/freecad/matplotlib
 
         if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
         then
