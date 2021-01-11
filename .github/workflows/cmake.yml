@@ -68,7 +68,7 @@ jobs:
               cc: "clang", cxx: "clang++",
               cmake_flags: "-DBUILD_FEM_NETGEN=ON -DFREECAD_RELEASE_PDB=OFF -DFREECAD_RELEASE_SEH=OFF -DFREECAD_USE_PCH=OFF",
               generator: "Ninja",
-              compiler_cache: "buildcache"
+              compiler_cache: "ccache"
             }
        
     steps:
@@ -277,7 +277,13 @@ jobs:
     - name: Install Dependencies (macOS)
       if: runner.os == 'macOS'
       run: |
-       brew install ccache coreutils boost
+       brew install ccache coreutils boost ninja
+        if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
+        then
+          (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
+          ls -la ${{ runner.workspace }}/ccache || true
+           echo "CCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
+        fi
 
     - name: Checkout 
       uses: actions/checkout@v2
