@@ -13,43 +13,43 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-18.04]
-        qt: ["qt5"]
-        shiboken: ["2"]
-        pyside: ["2"]
-        python: ["3"]
-        config:
-        - {
-            cc: "gcc-10", cxx: "g++-10",
-            cmake_flags: "-DBUILD_FEM_NETGEN=ON",
-            generator: "Unix Makefiles",
-            compiler_cache: "ccache"
-          }
-        - {
-            cc: "clang-10", cxx: "clang++-10",
-            cmake_flags: "-DBUILD_FEM_NETGEN=ON",
-            generator: "Unix Makefiles",
-            compiler_cache: "ccache"
-          }
-        - {
-            cc: "gcc", cxx: "g++",
-            cmake_flags: "-DBUILD_FEM_NETGEN=ON",
-            generator: "Unix Makefiles",
-            compiler_cache: "ccache"
-          }
-        include:
-        - os: ubuntu-16.04
-          qt: "qt4"
-          shiboken: ""
-          pyside: ""
-          python: ""
-          config:
-            {
-              cc: "gcc", cxx: "g++",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON",
-              generator: "Unix Makefiles",
-              compiler_cache: "ccache"
-            }
+        # os: [ubuntu-20.04, ubuntu-18.04]
+        # qt: ["qt5"]
+        # shiboken: ["2"]
+        # pyside: ["2"]
+        # python: ["3"]
+        # config:
+        # - {
+        #     cc: "gcc-10", cxx: "g++-10",
+        #     cmake_flags: "-DBUILD_FEM_NETGEN=ON",
+        #     generator: "Unix Makefiles",
+        #     compiler_cache: "ccache"
+        #   }
+        # - {
+        #     cc: "clang-10", cxx: "clang++-10",
+        #     cmake_flags: "-DBUILD_FEM_NETGEN=ON",
+        #     generator: "Unix Makefiles",
+        #     compiler_cache: "ccache"
+        #   }
+        # - {
+        #     cc: "gcc", cxx: "g++",
+        #     cmake_flags: "-DBUILD_FEM_NETGEN=ON",
+        #     generator: "Unix Makefiles",
+        #     compiler_cache: "ccache"
+        #   }
+        # include:
+        # - os: ubuntu-16.04
+        #   qt: "qt4"
+        #   shiboken: ""
+        #   pyside: ""
+        #   python: ""
+        #   config:
+        #     {
+        #       cc: "gcc", cxx: "g++",
+        #       cmake_flags: "-DBUILD_FEM_NETGEN=ON",
+        #       generator: "Unix Makefiles",
+        #       compiler_cache: "ccache"
+        #     }
         - os: windows-2016
           qt: "qt5"
           python: ""
@@ -286,6 +286,7 @@ jobs:
         brew link --overwrite qt5152
         brew link --force boost-python3@1.75.0
         brew link --force icu4c@67.1 
+        brew remove --ignore-dependencies tbb@2020_u3
         brew install --force tbb
         brew link --force tbb
 
