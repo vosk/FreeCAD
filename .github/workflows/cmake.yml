@@ -277,7 +277,17 @@ jobs:
     - name: Install Dependencies (macOS)
       if: runner.os == 'macOS'
       run: |
-        brew install ccache coreutils boost ninja xerces-c
+        brew tap FreeCAD/freecad
+        brew install ccache coreutils boost ninja xerces-c \
+          freecad/freecad/coin          \
+          freecad/freecad/nglib         \
+          freecad/freecad/med-file      \
+          freecad/freecad/opencamlib    \
+          freecad/freecad/shiboken2     \
+          freecad/freecad/pyside2       \
+          freecad/freecad/pyside2-tools \
+          freecad/freecad/pivy          \
+          freecad/freecad/matplotlib
 
         if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
         then
