@@ -74,8 +74,6 @@ jobs:
       shell: bash
       run: |
         echo "::set-output name=concat::${{ matrix.os }}-${{matrix.config.cc}}-${{matrix.qt}}"
-        qt_number=$(echo ${{ matrix.qt }} | cut -c3-3)
-        echo "::set-output name=qt_number::$qt_number"
 
     - name: Change Apt Cache permissions
       if: runner.os == 'Linux'
@@ -115,11 +113,8 @@ jobs:
         echo "CCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
         
         #"${{matrix.python}}" != "" ] && echo "PYTHON_MAJOR_VERSION=${{matrix.python}}">> $GITHUB_ENV || true
-        if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
-        then
-          (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
-          ls -la ${{ runner.workspace }}/ccache || true
-        fi
+        #Make cache folder
+        mkdir {{ runner.workspace }}/${{matrix.config.compiler_cache}}
 
     - name: Install compiler ${{matrix.config.cc}} (Linux)
       if: runner.os == 'Linux'
@@ -211,6 +206,12 @@ jobs:
         #export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH
         #echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/netgen/:$LD_LIRBARY_PATH" >> $GITHUB_ENV
         #echo "DISPLAY=:99.0" >> $GITHUB_ENV
+
+        if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
+        then
+          (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
+          ls -la ${{ runner.workspace }}/ccache || true
+        fi
 
     - name: Install QT4 (Linux)
       if: runner.os == 'Linux' && matrix.qt == 'qt4'
