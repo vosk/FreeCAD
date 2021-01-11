@@ -66,7 +66,7 @@ jobs:
           config:
             {
               cc: "clang", cxx: "clang++",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON",
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON -DCMAKE_PREFIX_PATH='/usr/local/opt/qt/lib/cmake;/usr/local/opt/nglib/Contents/Resources' ",
               generator: "Ninja",
               compiler_cache: "ccache"
             }
