@@ -293,7 +293,7 @@ jobs:
         then
           ${{matrix.config.compiler_cache}} --show-config
           ${{matrix.config.compiler_cache}} -z -M 400M
-          ls -la "${{ runner.workspace }}"
+          ls -Rla "${{ runner.workspace }}/${{matrix.config.compiler_cache}}"
         fi
           echo "::group::Run cmake build"
           cmake --build ./ --target FreeCADBase
