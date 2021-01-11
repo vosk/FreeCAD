@@ -80,7 +80,7 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: x64
-        
+
     - name: Set Environment Variables
       #if: runner.os == 'Linux' 
       shell: bash
@@ -101,7 +101,7 @@ jobs:
 
     - name: Cache Apt (Linux)
       if: runner.os == 'Linux' && false
-      uses: pat-s/always-upload-cache@v2.1.3
+      uses: actions/cache@v2
       with:
         path: /var/cache/apt/archives/*.deb
         key: ${{  steps.matrix-name.outputs.concat }}-cache-apt-${{ steps.get-date.outputs.date }}-${{ github.run_number }}
@@ -311,20 +311,8 @@ jobs:
         ls -la "${{ runner.workspace }}"
 
         echo "::group::Run cmake install"
-        cmake --install ./
+        cmake --install ./ || true
         echo "::endgroup::"
-
-    - name: Cleanup paths 
-      shell: bash
-      if: ${{ always() }}
-      run: |
-          echo "" > $GITHUB_ENV
-          echo "" > $GITHUB_PATH
-
-    - shell: cmd
-      if: runner.os == 'Windows' && ${{ always() }}
-      run: echo "test"
-
 
     - name: Install and Test (Linux)
       if: runner.os == 'LinuxDISABLED'
