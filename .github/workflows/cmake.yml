@@ -277,14 +277,14 @@ jobs:
     - name: Install Dependencies (macOS)
       if: runner.os == 'macOS'
       run: |
-      brew install ccache coreutils boost ninja xerces-c
+        brew install ccache coreutils boost ninja xerces-c
 
-      if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
-      then
-        (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
-        ls -la ${{ runner.workspace }}/ccache || true
-         echo "CCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
-      fi
+        if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
+        then
+          (rm -rf ~/.ccache  && ln -s ${{ runner.workspace }}/ccache ~/.ccache )|| true
+          ls -la ${{ runner.workspace }}/ccache || true
+           echo "CCACHE_DIR=${{ runner.workspace }}/${{matrix.config.compiler_cache}}" >> $GITHUB_ENV
+        fi
 
     - name: Checkout 
       uses: actions/checkout@v2
