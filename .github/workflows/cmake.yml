@@ -315,6 +315,7 @@ jobs:
 
     - name: Cleanup paths 
       shell: bash
+      if: ${{ always() }}
       run: |
           echo "" > $GITHUB_ENV
           echo "" > $GITHUB_PATH
