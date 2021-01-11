@@ -282,7 +282,7 @@ jobs:
         brew install ccache ninja
         brew install --only-dependencies freecad
         brew link --force vtk@8.2.0
-        brew link --force qt5152
+        brew link --overwrite qt5152
 
         if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
         then
