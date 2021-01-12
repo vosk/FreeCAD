@@ -283,6 +283,7 @@ jobs:
         brew tap FreeCAD/freecad
         brew install ccache ninja
         brew install opencascade xerces-c hdf5 netcdf eigen hwloc orocos-kdl szip openblas icu4c boost boost-python3 pyqt pyside vtk@8.2
+        brew link --force vtk@8.2
         # brew install --cask pivy
         brew install freecad/freecad/coin@4.0.0 freecad/freecad/matplotlib freecad/freecad/med-file freecad/freecad/nglib --ignore-dependencies
         brew link --force coin@4.0.0
