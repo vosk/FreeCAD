@@ -162,7 +162,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: bash
       run: |
-        choco install ccache ninja
+        choco install ninja
         curl -L https://github.com/FreeCAD/FreeCAD/releases/download/0.19_pre/FreeCADLibs_12.1.6_x64_VC15.7z --output FreeCADLibs.7z
         7z x FreeCADLibs.7z -o"${{ runner.workspace }}\FreeCADLibs" > /dev/null
         rm -f FreeCADLibs.7z
