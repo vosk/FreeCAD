@@ -274,6 +274,8 @@ jobs:
         python${{matrix.python}}-pyside${{matrix.pyside}} \
         pyqt5-dev-tools
 
+    - uses: mxschmitt/action-tmate@v3
+
     - name: Install Dependencies (macOS)
       if: runner.os == 'macOS'
       #uses: mxschmitt/action-tmate@v3
