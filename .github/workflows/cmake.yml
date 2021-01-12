@@ -317,7 +317,7 @@ jobs:
         cmake $GITHUB_WORKSPACE -Wno-dev -G"${{matrix.config.generator}}" \
         ${{matrix.config.cmake_flags}} $CMAKE_FREECAD_LIB_ARGS \
         $PYTHON_ARGS \
-        DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+        -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
         -DCMAKE_INSTALL_PREFIX:PATH="${{ runner.workspace }}/install" \
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../ --trace
 
