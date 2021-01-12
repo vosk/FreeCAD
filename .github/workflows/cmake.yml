@@ -66,7 +66,7 @@ jobs:
           config:
             {
               cc: "clang", cxx: "clang++",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON -DFREECAD_USE_EXTERNAL_KDL=ON -DBUILD_TECHDRAW=OFF -DCMAKE_PREFIX_PATH='/usr/local/opt/qt/lib/cmake;/usr/local/opt/nglib/Contents/Resources' ",
+              cmake_flags: "-DBUILD_FEM_NETGEN=ON -DBUILD_ENABLE_CXX_STD='C++17' -DFREECAD_USE_EXTERNAL_KDL=ON -DBUILD_TECHDRAW=OFF -DCMAKE_PREFIX_PATH='/usr/local/opt/qt/lib/cmake;/usr/local/opt/nglib/Contents/Resources' ",
               generator: "Ninja",
               compiler_cache: ""
             }
@@ -286,7 +286,7 @@ jobs:
         # brew install --cask pivy
         brew install freecad/freecad/coin@4.0.0 freecad/freecad/matplotlib freecad/freecad/med-file freecad/freecad/nglib --ignore-dependencies
         brew link --force coin@4.0.0
-        
+
         # echo "LDFLAGS='-L/usr/local/opt/icu4c@67.1/lib'" >> $GITHUB_ENV
         if [ "${{matrix.config.compiler_cache}}" == "ccache" ]
         then
