@@ -68,7 +68,7 @@ jobs:
               cc: "clang", cxx: "clang++",
               cmake_flags: "-DBUILD_FEM_NETGEN=ON -DBUILD_ENABLE_CXX_STD='C++17' -DFREECAD_USE_EXTERNAL_KDL=ON -DBUILD_TECHDRAW=OFF -DCMAKE_PREFIX_PATH='/usr/local/opt/qt/lib/cmake;/usr/local/opt/nglib/Contents/Resources' ",
               generator: "Ninja",
-              compiler_cache: ""
+              compiler_cache: "ccache"
             }
        
     steps:
@@ -316,7 +316,7 @@ jobs:
         $PYTHON_ARGS \
         -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
         -DCMAKE_INSTALL_PREFIX:PATH="${{ runner.workspace }}/install" \
-        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../ --trace
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_QT5=${BUILD_QT5} ../
 
     - name: Build and install using CMake
       #if: runner.os == 'Windows'
