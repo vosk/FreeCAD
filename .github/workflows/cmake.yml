@@ -283,7 +283,7 @@ jobs:
         brew tap FreeCAD/freecad
         brew install ccache ninja
         brew install opencascade xerces-c hdf5 netcdf eigen hwloc orocos-kdl szip openblas icu4c boost boost-python3 pyqt pyside vtk
-        brew install --cask pivy
+        # brew install --cask pivy
         brew install freecad/freecad/coin@4.0.0 freecad/freecad/matplotlib freecad/freecad/med-file freecad/freecad/nglib --ignore-dependencies
 
         # echo "LDFLAGS='-L/usr/local/opt/icu4c@67.1/lib'" >> $GITHUB_ENV
