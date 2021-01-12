@@ -279,7 +279,7 @@ jobs:
       #uses: mxschmitt/action-tmate@v3
       run: |
         brew tap FreeCAD/freecad
-        brew install ccache ninja
+        brew install ninja
         brew install --only-dependencies freecad
         brew link --force vtk@8.2.0
         brew link --force coin@4.0.0
@@ -333,7 +333,7 @@ jobs:
           #ls -Rla "${{ runner.workspace }}/${{matrix.config.compiler_cache}}"
         fi
           echo "::group::Run cmake build"
-          cmake --build ./
+          cmake --build ./ -- -v
           echo "::endgroup::"
 
         if [ "${{matrix.config.compiler_cache}}" != "" ]
