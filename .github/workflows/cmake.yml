@@ -18,7 +18,7 @@ jobs:
         shiboken: ["2"]
         pyside: ["2"]
         python: ["3"]
-        bin_cmd: "bin/FreeCADCmd"
+        bin_cmd: ["bin/FreeCADCmd"]
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
