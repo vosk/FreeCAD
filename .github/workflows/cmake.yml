@@ -298,7 +298,6 @@ jobs:
 
     - name: Install Dependencies (macOS)
       if: runner.os == 'macOS'
-      #uses: mxschmitt/action-tmate@v3
       run: |
         brew tap FreeCAD/freecad
         brew install ccache ninja
@@ -364,8 +363,14 @@ jobs:
         ls -la "${{ runner.workspace }}"
 
         echo "::group::Run cmake install"
-        cmake --install ./ || true
+        cmake --install ./
         echo "::endgroup::"
+
+    - name: Command Line tests
+      shell: bash
+      run: |
+       ${{ runner.workspace }}/install/FreeCADCmd --console --run-test 0
+
 
     - name: Install and Test (Linux)
       if: runner.os == 'LinuxDISABLED'
