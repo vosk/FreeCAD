@@ -18,6 +18,7 @@ jobs:
         shiboken: ["2"]
         pyside: ["2"]
         python: ["3"]
+        bin_cmd: "bin/FreeCADCmd"
         config:
         - {
             cc: "gcc-10", cxx: "g++-10",
@@ -43,6 +44,7 @@ jobs:
           shiboken: ""
           pyside: ""
           python: ""
+          bin_cmd: "bin/FreeCADCmd"
           config:
             {
               cc: "gcc", cxx: "g++",
@@ -53,6 +55,7 @@ jobs:
         - os: windows-2016
           qt: "qt5"
           python: ""
+          bin_cmd: "bin/FreeCADCmd.exe"
           config:
             {
               cc: "cl", cxx: "cl",
@@ -63,6 +66,7 @@ jobs:
         - os: windows-2019
           qt: "qt5"
           python: ""
+          bin_cmd: "bin/FreeCADCmd.exe"
           config:
             {
               cc: "cl", cxx: "cl",
@@ -73,6 +77,7 @@ jobs:
         - os: macos-10.15
           qt: "qt5"
           python: "3"
+          bin_cmd: "MacOS/FreeCADCmd"
           config:
             {
               cc: "clang", cxx: "clang++",
@@ -80,16 +85,17 @@ jobs:
               generator: "Ninja",
               compiler_cache: "ccache"
             }
-        - os: macos-11.0
-          qt: "qt5"
-          python: "3"
-          config:
-            {
-              cc: "clang", cxx: "clang++",
-              cmake_flags: "-DBUILD_FEM_NETGEN=ON -DBUILD_ENABLE_CXX_STD='C++17' -DFREECAD_USE_EXTERNAL_KDL=ON -DBUILD_TECHDRAW=OFF -DCMAKE_PREFIX_PATH='/usr/local/opt/qt/lib/cmake;/usr/local/opt/nglib/Contents/Resources' ",
-              generator: "Ninja",
-              compiler_cache: "ccache"
-            }
+        # - os: macos-11.0
+        #   qt: "qt5"
+        #   python: "3"
+        #   bin_cmd: "MacOS/FreeCADCmd"
+        #   config:
+        #     {
+        #       cc: "clang", cxx: "clang++",
+        #       cmake_flags: "-DBUILD_FEM_NETGEN=ON -DBUILD_ENABLE_CXX_STD='C++17' -DFREECAD_USE_EXTERNAL_KDL=ON -DBUILD_TECHDRAW=OFF -DCMAKE_PREFIX_PATH='/usr/local/opt/qt/lib/cmake;/usr/local/opt/nglib/Contents/Resources' ",
+        #       generator: "Ninja",
+        #       compiler_cache: "ccache"
+        #     }
        
     steps:
     - name: Get Date
@@ -369,7 +375,7 @@ jobs:
     - name: Command Line tests
       shell: bash
       run: |
-       ${{ runner.workspace }}/install/bin/FreeCADCmd --console --run-test 0
+       ${{ runner.workspace }}/${{matrix.bin_cmd}} --console --run-test 0
 
 
     - name: Install and Test (Linux)
