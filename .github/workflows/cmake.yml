@@ -369,7 +369,7 @@ jobs:
     - name: Command Line tests
       shell: bash
       run: |
-       ${{ runner.workspace }}/install/FreeCADCmd --console --run-test 0
+       ${{ runner.workspace }}/install/bin/FreeCADCmd --console --run-test 0
 
 
     - name: Install and Test (Linux)
