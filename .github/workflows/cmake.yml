@@ -182,7 +182,8 @@ jobs:
           echo "${{ runner.workspace }}\buildcache-bin\buildcache\bin" >> $GITHUB_PATH
           echo "CMAKE_CXX_COMPILER_LAUNCHER=buildcache" >> $GITHUB_ENV
           echo "BUILDCACHE_DIR=${{ runner.workspace }}\buildcache" >> $GITHUB_ENV
-          echo "BUILDCACHE_COMPRESS=$CCACHE_COMPRESS" >> $GITHUB_ENV
+          echo "BUILDCACHE_COMPRESS=true" >> $GITHUB_ENV
+          echo "BUILDCACHE_MAX_CACHE_SIZE=268435456" >> $GITHUB_ENV
         fi
         ls -la "${{ runner.workspace }}\FreeCADLibs"
         ls -la "${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15"
@@ -306,8 +307,11 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         brew tap FreeCAD/freecad
-        brew install ccache ninja
-        brew install opencascade xerces-c hdf5 netcdf eigen hwloc orocos-kdl szip openblas icu4c boost boost-python3 pyqt pyside vtk@8.2
+        brew install ccache ninja 
+        brew install \
+        opencascade xerces-c hdf5 netcdf eigen hwloc orocos-kdl szip \
+        numpy icu4c boost boost-python3 pyqt pyside vtk@8.2
+
         brew link --force vtk@8.2
         # brew install --cask pivy
         brew install freecad/freecad/coin@4.0.0 freecad/freecad/matplotlib freecad/freecad/med-file freecad/freecad/nglib --ignore-dependencies
