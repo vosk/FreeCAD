@@ -394,14 +394,14 @@ jobs:
 
     - uses: OrbitalOwen/desktop-screenshot-action@0.1
       with:
-      file-name: 'FreeCAD.jpg'
+        file-name: 'FreeCAD.jpg'
 
     - name: 'Upload Screenshot'
       uses: actions/upload-artifact@v2
       with:
         name: FreeCAD-screenshot
         path: FreeCAD.jpg
-      retention-days: 1
+        retention-days: 1
 
     - name: Install and Test (Linux)
       if: runner.os == 'LinuxDISABLED'
