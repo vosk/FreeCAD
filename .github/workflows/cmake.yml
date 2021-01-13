@@ -185,7 +185,7 @@ jobs:
           echo "BUILDCACHE_COMPRESS=true" >> $GITHUB_ENV
           echo "BUILDCACHE_MAX_CACHE_SIZE=268435456" >> $GITHUB_ENV
           rm "${{ runner.workspace }}\buildcache\config.json" || true
-          buildcache --show-config
+          "${{ runner.workspace }}\buildcache-bin\buildcache\bin'buildcache" --show-config
         fi
         ls -la "${{ runner.workspace }}\FreeCADLibs"
         ls -la "${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15"
