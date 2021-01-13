@@ -248,9 +248,9 @@ jobs:
         echo "DISPLAY=:0.0" >> $GITHUB_ENV
         Xvfb :0 -screen 0 1024x768x16 &
         sleep 1
-        xdpyinfo -display :0.0 > /dev/null || true
-        xdpyinfo -display :0 > /dev/null || true
-
+        xdpyinfo -display :0.0 || true
+        xdpyinfo -display :0  || true
+        xdpyinfo || true
         #export INSTALLED_APP_PATH="/usr/local/bin/FreeCAD"
         #echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
 
