@@ -397,7 +397,7 @@ jobs:
        "${{ runner.workspace }}/install/${{matrix.bin}}" --log-file "${{ runner.workspace }}/FreeCAD_installed.log" &
        sleep 15
 
-    - uses: OrbitalOwen/desktop-screenshot-action@0.1
+    - uses: OrbitalOwen/desktop-screenshot-action@master
       with:
         file-name: 'FreeCAD.jpg'
 
