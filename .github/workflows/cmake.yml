@@ -361,7 +361,8 @@ jobs:
         cd "${{ runner.workspace }}/build"
         if [ "${{matrix.config.compiler_cache}}" != "" ]
         then
-          #${{matrix.config.compiler_cache}} --show-config
+          
+          ${{matrix.config.compiler_cache}} --show-config || true
           ${{matrix.config.compiler_cache}} -z -M 400M
           #ls -Rla "${{ runner.workspace }}/${{matrix.config.compiler_cache}}"
         fi
