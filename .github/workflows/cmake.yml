@@ -223,7 +223,8 @@ jobs:
                                libspnav-dev                     \
                                libshiboken${{matrix.shiboken}}-dev  \
                                shiboken${{matrix.shiboken}}     \
-                               ccache
+                               ccache                           \
+                               imagemagick
 
         if [[ $(lsb_release -rs) == "16.04" ]]; then 
           sudo apt-get install -y \
@@ -388,7 +389,19 @@ jobs:
     - name: Startup normally
       shell: bash
       run: |
-       "${{ runner.workspace }}/install/${{matrix.bin}}" --console --run-test 0
+       "${{ runner.workspace }}/install/${{matrix.bin}}" --log-file "${{ runner.workspace }}/FreeCAD_installed.log" &
+       sleep 15
+
+    - uses: OrbitalOwen/desktop-screenshot-action@0.1
+      with:
+      file-name: 'FreeCAD.jpg'
+
+    - name: 'Upload Screenshot'
+      uses: actions/upload-artifact@v2
+      with:
+        name: FreeCAD-screenshot
+        path: FreeCAD.jpg
+      retention-days: 1
 
     - name: Install and Test (Linux)
       if: runner.os == 'LinuxDISABLED'
