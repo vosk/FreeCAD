@@ -309,7 +309,7 @@ jobs:
         brew tap FreeCAD/freecad
         brew install ccache ninja 
         brew install \
-        opencascade xerces-c hdf5@5.10 swig netcdf eigen hwloc orocos-kdl szip \
+        opencascade xerces-c hdf5@1.10 swig netcdf eigen hwloc orocos-kdl szip \
         numpy icu4c boost boost-python3 pyqt pyside vtk@8.2
 
         brew link --force vtk@8.2
