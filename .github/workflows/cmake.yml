@@ -246,7 +246,7 @@ jobs:
         ##sh -e /etc/init.d/xvfb start
 
         echo "DISPLAY=:99.0" >> $GITHUB_ENV
-        xdpyinfo -display $DISPLAY > /dev/null || Xvfb $DISPLAY -screen 0 1024x768x16 &
+        xdpyinfo -display :99.0 > /dev/null || Xvfb $DISPLAY -screen 0 1024x768x16 &
 
         #export INSTALLED_APP_PATH="/usr/local/bin/FreeCAD"
         #echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
