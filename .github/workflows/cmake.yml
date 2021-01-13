@@ -309,7 +309,7 @@ jobs:
         brew tap FreeCAD/freecad
         brew install ccache ninja 
         brew install \
-        opencascade xerces-c hdf5 netcdf eigen hwloc orocos-kdl szip \
+        opencascade xerces-c hdf5@5.10 swig netcdf eigen hwloc orocos-kdl szip \
         numpy icu4c boost boost-python3 pyqt pyside vtk@8.2
 
         brew link --force vtk@8.2
@@ -379,7 +379,7 @@ jobs:
     - name: Command Line tests
       shell: bash
       run: |
-       ${{ runner.workspace }}/install/${{matrix.bin_cmd}} --console --run-test 0
+       "${{ runner.workspace }}/install/${{matrix.bin_cmd}}" --console --run-test 0
 
 
     - name: Install and Test (Linux)
