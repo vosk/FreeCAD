@@ -185,7 +185,6 @@ jobs:
           echo "BUILDCACHE_COMPRESS=true" >> $GITHUB_ENV
           echo "BUILDCACHE_MAX_CACHE_SIZE=268435456" >> $GITHUB_ENV
           rm "${{ runner.workspace }}\buildcache\config.json" || true
-          "${{ runner.workspace }}\buildcache-bin\buildcache\bin\buildcache" --show-config
         fi
         ls -la "${{ runner.workspace }}\FreeCADLibs"
         ls -la "${{ runner.workspace }}\FreeCADLibs\FreeCADLibs_12.1.6_x64_VC15"
@@ -243,8 +242,10 @@ jobs:
         ## https://github.com/FreeCAD/FreeCAD/pull/3485
         #wget http://mirrors.kernel.org/ubuntu/pool/universe/e/eigen3/libeigen3-dev_3.3.7-2_all.deb
         #sudo dpkg -i libeigen3-dev_3.3.7-2_all.deb
-        ##export DISPLAY=:99.0
+
         ##sh -e /etc/init.d/xvfb start
+
+        echo "DISPLAY=:99.0" >> $GITHUB_ENV
 
         #export INSTALLED_APP_PATH="/usr/local/bin/FreeCAD"
         #echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
@@ -402,7 +403,7 @@ jobs:
     - name: 'Upload Screenshot'
       uses: actions/upload-artifact@v2
       with:
-        name: FreeCAD-screenshot
+        name: ${{ steps.matrix-name.outputs.concat }}-Screenshot
         path: FreeCAD.jpg
         retention-days: 1
 
