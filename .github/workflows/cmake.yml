@@ -427,9 +427,9 @@ jobs:
       shell: bash
       run: |
         grep --file=$GITHUB_WORKSPACE/.log_errors "${{ runner.workspace }}/FreeCAD_installed.log" || true
-        grep --file=$GITHUB_WORKSPACE/.log_errors "${{ runner.workspace }}/FreeCAD_installed.log" ; [ $? == 1 ] && \
-        echo "No errors from .log_errors file found in the log after start from /usr/local/bin" || \
-        ( echo "::warning::Error from .log_errors found!" && false )
+        # grep --file=$GITHUB_WORKSPACE/.log_errors "${{ runner.workspace }}/FreeCAD_installed.log" ; [ $? == 1 ] && \
+        # echo "No errors from .log_errors file found in the log after start from /usr/local/bin" || \
+        # ( echo "::warning::Error from .log_errors found!" && false )
 
     - name: Package
       shell: bash
