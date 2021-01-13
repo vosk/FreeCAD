@@ -342,6 +342,14 @@ jobs:
     - name: Configure
       shell: bash
       run: |
+        #Enable Cpack for packaging, until it is enabled in master, this is the best we can do
+        cat << EOF  >> CMakeLists.txt
+        set(CPACK_PACKAGE_VERSION_MAJOR "\${PACKAGE_VERSION_MAJOR}")
+        set(CPACK_PACKAGE_VERSION_MINOR "\${PACKAGE_VERSION_MINOR}")
+        set(CPACK_PACKAGE_VERSION_PATCH "$GITHUB_SHA")
+        include(CPack)
+        EOF
+
         mkdir "${{ runner.workspace }}/build" && cd "${{ runner.workspace }}/build"
 
         CMAKE_FREECAD_LIB_ARGS=""
@@ -418,10 +426,22 @@ jobs:
     - name: Check run log
       shell: bash
       run: |
-        cat /tmp/FreeCAD_installed.log
+        cat "${{ runner.workspace }}/FreeCAD_installed.log"
         grep --file=${{ runner.workspace }}/.log_errors /tmp/FreeCAD_installed.log ; [ $? == 1 ] && \
         echo "No errors from .log_errors file found in the log after start from /usr/local/bin" || \
         ( echo "::warning::Error from .log_errors found!" && false )
+
+    - name: Package
+      shell: bash
+      run: |
+        cpack -G "ZIP" "${{ runner.workspace }}/build"
+
+    - name: Upload Package
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ steps.matrix-name.outputs.concat }}-package
+        path: ${{ runner.workspace }}/build/FreeCAD*.zip
+        retention-days: 7
 
     - name: Install and Test (Linux)
       if: runner.os == 'LinuxDISABLED'
