@@ -400,9 +400,13 @@ jobs:
        "${{ runner.workspace }}/install/${{matrix.bin}}" --log-file "${{ runner.workspace }}/FreeCAD_installed.log" &
        sleep 15
 
-    - uses: OrbitalOwen/desktop-screenshot-action@master
-      with:
-        file-name: 'FreeCAD.jpg'
+    - name: Take Screensoht
+      shell: bash
+      run: |
+        npm install --save screenshot-desktop
+        echo "const screenshot = require('screenshot-desktop');screenshot({ filename: 'FreeCAD.jpg' }).then((imgPath) => {});" > ss.js
+        node ss.js
+
 
     - name: 'Upload Screenshot'
       uses: actions/upload-artifact@v2
