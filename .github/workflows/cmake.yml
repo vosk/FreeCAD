@@ -118,7 +118,6 @@ jobs:
         arch: x64
 
     - name: Set Environment Variables
-      #if: runner.os == 'Linux' 
       shell: bash
       run: |
         echo "INSTALLED_APP_PATH=/usr/local/bin/FreeCAD" >> $GITHUB_ENV
@@ -338,6 +337,7 @@ jobs:
 
     - name: Checkout 
       uses: actions/checkout@v2
+      fetch-depth: 5000
 
     - name: Configure
       shell: bash
