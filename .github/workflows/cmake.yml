@@ -337,7 +337,8 @@ jobs:
 
     - name: Checkout 
       uses: actions/checkout@v2
-      fetch-depth: 5000
+      with:
+        fetch-depth: 5000
 
     - name: Configure
       shell: bash
