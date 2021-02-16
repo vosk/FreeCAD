@@ -148,7 +148,7 @@ void PropertyItem::setPropertyData(const std::vector<App::Property*>& items)
         try {
             // Check for 'DocumentObject' as parent because otherwise 'ObjectIdentifier' raises an exception
             App::DocumentObject * docObj = Base::freecad_dynamic_cast<App::DocumentObject>(p.getContainer());
-            if (docObj && !docObj->isReadOnly(&p)) {
+            if (docObj->isOwnerOf(p) && !p.testStatus(App::PropertyStatus::ReadOnly)) {
                 App::ObjectIdentifier id(p);
                 std::vector<App::ObjectIdentifier> paths;
                 p.getPaths(paths);
@@ -175,7 +175,7 @@ void PropertyItem::updateData()
         it != propertyItems.end(); ++it) {
         App::PropertyContainer* parent = (*it)->getContainer();
         if (parent)
-            ro &= (parent->isReadOnly(*it) || (*it)->testStatus(App::Property::ReadOnly));
+            ro &= (*it)->testStatus(App::PropertyStatus::Prop_ReadOnly) || (*it)->testStatus(App::PropertyStatus::ReadOnly);
     }
     this->setReadOnly(ro);
 }
@@ -305,7 +305,7 @@ bool PropertyItem::isLinked() const
     return linked;
 }
 
-bool PropertyItem::testStatus(App::Property::Status pos) const
+bool PropertyItem::testStatus(App::PropertyStatus pos) const
 {
     std::vector<App::Property*>::const_iterator it;
     for (it = propertyItems.begin(); it != propertyItems.end(); ++it) {
@@ -333,7 +333,7 @@ QVariant PropertyItem::displayName() const
 QVariant PropertyItem::toolTip(const App::Property* prop) const
 {
     QString str = QApplication::translate("App::Property",
-                                          prop->getDocumentation());
+                                          prop->getDocumentation().c_str());
     return QVariant(str);
 }
 
@@ -487,7 +487,7 @@ void PropertyItem::setPropertyValue(const QString& value)
         it != propertyItems.end(); ++it) {
         auto prop = *it;
         App::PropertyContainer* parent = prop->getContainer();
-        if (!parent || parent->isReadOnly(prop) || prop->testStatus(App::Property::ReadOnly))
+        if (!parent ||prop->testStatus(App::PropertyStatus::Prop_ReadOnly) || prop->testStatus(App::PropertyStatus::ReadOnly))
             continue;
 
         if (parent->isDerivedFrom(App::Document::getClassTypeId())) {
@@ -540,8 +540,8 @@ QVariant PropertyItem::data(int column, int role) const
         if (role == Qt::BackgroundRole || role == Qt::TextColorRole) {
             if(PropertyView::showAll()
                 && propertyItems.size() == 1
-                && propertyItems.front()->testStatus(App::Property::PropDynamic)
-                && !propertyItems.front()->testStatus(App::Property::LockDynamic))
+                && propertyItems.front()->testStatus(App::PropertyStatus::Prop_Dynamic)
+                && !propertyItems.front()->testStatus(App::PropertyStatus::LockDynamic))
             {
                 return role==Qt::BackgroundRole
                     ? QVariant::fromValue(QColor(0xFF,0xFF,0x99)) 
